@@ -2,22 +2,38 @@ class KeyListener {
 
 	constructor() {
 
+		// log pressed keyes
 		this.pressedKeys = [];
 
+		// add event listeners
 		document.addEventListener('keydown', this.keydown.bind(this));
-    	document.addEventListener('keyup', this.keyup.bind(this));
+		document.addEventListener('keyup', this.keyup.bind(this));
+
 	}
 
-    keydown(e) {
-	    this.pressedKeys[e.keyCode] = true;
+	keydown(event) {
+
+		// save pressed key
+		this.pressedKeys[event.keyCode] = true;
+		this.pressedKeys[event.key] = true;
+		this.pressedKeys[event.code] = true;
+
 	}
-	 
-	keyup(e) {
-	    this.pressedKeys[e.keyCode] = false;
+
+	keyup(event) {
+
+		// forget pressed key
+		this.pressedKeys[event.keyCode] = false;
+		this.pressedKeys[event.key] = false;
+		this.pressedKeys[event.code] = false;
+
 	}
 
 	isPressed(key) {
-	    return this.pressedKeys[key] ? true : false;
+
+		// check if key is pressed
+		return this.pressedKeys[key];
+
 	}
 
 }

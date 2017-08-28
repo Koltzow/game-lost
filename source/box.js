@@ -7,52 +7,104 @@ class Box {
 		this.height = height;
 	}
 
-	draw(g) {
+	draw(game) {
 
-		let s = 4000;
+		// draw distance of shadows
+		let drawdist = 4000;
 
-		let px = g.player.x,
-			py = g.player.y;
+		// deconstruct objects
+		const {player, context} = game;
+		const {x: px, y: py} = player;
+		const {x, y, width: w, height: h} = this;
 
-		let a = [{ x: this.x, y: this.y, rad: rad(this.x, this.y, px, py)},
-				{ x: this.x, y: this.y + this.height, rad: rad(this.x, this.y + this.height, px, py)},
-				{ x: this.x + this.width, y: this.y, rad: rad(this.x + this.width, this.y, px, py)},
-				{ x: this.x + this.width, y: this.y + this.height, rad: rad(this.x + this.width, this.y + this.height, px, py)}];
+		// define corners and angle in radians to player
+		let corners = [
+			{ x: x, y: y, rad: rad(x, y, px, py)},
+			{ x: x, y: y + h, rad: rad(x, y + h, px, py)},
+			{ x: x + w, y: y, rad: rad(x + w, y, px, py)},
+			{ x: x + w, y: y + h, rad: rad(x + w, y + h, px, py)}
+		];
 
-		a.sort(function(b,c){
+		// sort corners by angle clockwise
+		corners.sort(function(a, b){
 
-			if(b.rad - c.rad > Math.PI) {
+			if(a.rad - b.rad > Math.PI) {
 				return -1;
 			}
 
-			if(b.rad - c.rad < -Math.PI) {
+			if(a.rad - b.rad < -Math.PI) {
 				return 1;
 			}
 
-			return (b.rad > c.rad);
+			return (a.rad > b.rad);
 		});
 
-		// a[0].rad += (a[0].rad - g.player.rad) * 0.1;
-		// a[1].rad += (a[1].rad - g.player.rad) * 0.1;
-		// a[2].rad += (a[2].rad - g.player.rad) * 0.1;
-		// a[3].rad += (a[3].rad - g.player.rad) * 0.1;
-
-		//g.ctx.fillStyle = 'rgba(0, 0, 0, 0.5)';
-
-		let gradient = g.ctx.createRadialGradient(this.x + this.width/2, this.y + this.height/2, 0, this.x + this.width/2, this.y + this.height/2, 200);
-		gradient.addColorStop(0, 'rgba(0,0,0,0.9)');
+		// define gradient
+		let gradient = context.createRadialGradient(x + w/2, y + h/2, 0, x + w/2, y + h/2, 200);
+		gradient.addColorStop(0, 'rgba(0,0,0,'+(1-game.ambient)+')');
 		gradient.addColorStop(1, 'rgba(0,0,0,0)');
-		g.ctx.fillStyle = gradient;
 
-		g.ctx.beginPath();
-		g.ctx.moveTo(a[0].x, a[0].y);
-    	g.ctx.lineTo(a[0].x + s * Math.cos(a[0].rad), a[0].y + s * Math.sin(a[0].rad));
-    	g.ctx.lineTo(a[3].x + s * Math.cos(a[3].rad), a[3].y + s * Math.sin(a[3].rad));
-    	g.ctx.lineTo(a[3].x, a[3].y);
-    	g.ctx.fill();
+		// get edges
+		const [l, , ,r] = corners;
 
-		g.ctx.fillStyle = '#000';
-		g.ctx.fillRect(this.x, this.y, this.width, this.height);
+		// draw shadow
+		context.beginPath();
+		context.moveTo(l.x, l.y);
+    context.lineTo(l.x + drawdist * Math.cos(l.rad), l.y + drawdist * Math.sin(l.rad));
+    context.lineTo(r.x + drawdist * Math.cos(r.rad), r.y + drawdist * Math.sin(r.rad));
+    context.lineTo(r.x, r.y);
+		context.fillStyle = gradient;
+    context.fill();
+
+		// calculate distance between box and player
+		const multiplier = 0.1;
+		const offsetX = (x+w/2 - px) * multiplier;
+		const offsetY = (y+h/2 - py) * multiplier;
+
+		//draw vertical side
+		context.beginPath();
+
+		// draw vertical side
+		if (offsetY > 0){
+			context.moveTo(x, y);
+	    context.lineTo(x+w, y);
+	    context.lineTo(x+w+offsetX, y+offsetY);
+	    context.lineTo(x+offsetX, y+offsetY);
+			context.fillStyle = (py > y) ? '#222' : calcLight(offsetX, offsetY - h/2);
+		} else {
+			context.moveTo(x, y+h);
+	    context.lineTo(x+w, y+h);
+	    context.lineTo(x+w+offsetX, y+h+offsetY);
+	    context.lineTo(x+offsetX, y+h+offsetY);
+			context.fillStyle = (py < y+h) ? '#222' : calcLight(offsetX, offsetY + h/2);
+		}
+
+		context.fill();
+
+		//draw vertical side
+		context.beginPath();
+
+		if (offsetX > 0){
+			context.moveTo(x, y);
+			context.lineTo(x+offsetX, y+offsetY);
+			context.lineTo(x+offsetX, y+h+offsetY);
+			context.lineTo(x, y+h);
+			context.fillStyle = (px > x) ? '#222' : calcLight(offsetX - w/2, offsetY);
+		} else {
+			context.moveTo(x+w, y);
+			context.lineTo(x+w+offsetX, y+offsetY);
+			context.lineTo(x+w+offsetX, y+h+offsetY);
+			context.lineTo(x+w, y+h);
+			context.fillStyle = (px < x+w) ? '#222' : calcLight(offsetX + w/2, offsetY);
+		}
+
+		context.fill();
+
+		// draw box top
+		context.fillStyle = '#222';
+		context.fillRect(x + offsetX, y + offsetY, w, h);
+
+
 	}
 
 }

@@ -2,7 +2,7 @@ class Player {
 
 	constructor() {
 
-        this.x = 0;
+		this.x = 0;
 		this.y = 0;
 		this.vx = 0;
 		this.vy = 0;
@@ -12,12 +12,11 @@ class Player {
 		this.friction = 0.9;
 		this.colliding = false;
 		this.jumping = false;
-
-	    this.light = {
-	    	fov: 1,
-	    	radius: 300,
-	    	brightness: 0.5
-	    };
+    this.light = {
+    	fov: 1,
+    	radius: 300,
+    	brightness: 0.5
+    };
 
 	}
 
@@ -95,42 +94,32 @@ class Player {
 
 	}
 
-	update(g) {
+	update(game) {
 
-		let deltaY = mouse.y - g.height/2;
-		let deltaX = mouse.x - g.width/2;
+		let deltaY = mouse.y - game.height/2;
+		let deltaX = mouse.x - game.width/2;
 		this.rad = Math.atan2(deltaY, deltaX);
 
 		//left
-		if (keyboard.isPressed(37)) {
-			//let rad = this.rad - 0.5 * Math.PI;
-			//this.vy += Math.sin(rad) * this.speed;
-			//this.vx += Math.cos(rad) * this.speed;
+		if (keyboard.isPressed(ARROW_LEFT) || keyboard.isPressed('a')) {
 			this.vx -= this.speed;
 		}
-		
+
 		//right
-		if (keyboard.isPressed(39)) {
-			//let rad = this.rad - 0.5 * Math.PI;
-			//this.vy -= Math.sin(rad) * this.speed;
-			//this.vx -= Math.cos(rad) * this.speed;
+		if (keyboard.isPressed(ARROW_RIGHT) || keyboard.isPressed('d')) {
 			this.vx += this.speed;
 		}
 
 		//up
-		if (keyboard.isPressed(38)) {
-			//this.vy += Math.sin(this.rad) * this.speed;
-			//this.vx += Math.cos(this.rad) * this.speed;
+		if (keyboard.isPressed(ARROW_UP) || keyboard.isPressed('w')) {
 			this.vy -= this.speed;
 		}
-		
+
 		//down
-		if(keyboard.isPressed(40)){
-			//this.vy -= Math.sin(this.rad) * this.speed;
-			//this.vx -= Math.cos(this.rad) * this.speed;
+		if(keyboard.isPressed(ARROW_DOWN) || keyboard.isPressed('s')){
 			this.vy += this.speed;
-		}	
-		
+		}
+
 		//pos
 		this.x += this.vx;
 		this.y += this.vy;
@@ -141,64 +130,60 @@ class Player {
 
 		this.colliding = false;
 
-		for (let i = 0; i < g.boxes.length; i++) {
-			if(this.testCollision(g.boxes[i])){
+		for (let i = 0; i < game.boxes.length; i++) {
+			if(this.testCollision(game.boxes[i])){
 
-				this.resolveCollision(g.boxes[i]);							
+				this.resolveCollision(game.boxes[i]);
 			}
 		}
 	}
 
-	drawLight(g) {
+	drawDarkness(game) {
 
-		let gradient = g.ctx.createRadialGradient(this.x, this.y, 0, this.x, this.y, this.light.radius);
-		gradient.addColorStop(0, 'rgba(255,255,255,0.1)');
+		let gradient = game.context.createRadialGradient(game.width/2, game.height/2, 0, game.width/2, game.height/2, this.light.radius*10);
+		gradient.addColorStop(0, 'rgba(0,0,0,'+game.ambient+')');
+		gradient.addColorStop(0.1, 'rgba(0,0,0,1)');
+		game.context.fillStyle = gradient;
+
+		game.context.fillRect(0, 0, game.width, game.height);
+
+
+	}
+
+	drawLight(game) {
+
+		let gradient = game.context.createRadialGradient(game.width/2, game.height/2, 0, game.width/2, game.height/2, this.light.radius*10);
+		gradient.addColorStop(0, 'rgba(255,255,255,1)');
 		gradient.addColorStop(1, 'rgba(255,255,255,0)');
-		g.ctx.fillStyle = gradient;
+		game.context.fillStyle = gradient;
 
 		//draw circle
-		g.ctx.beginPath();
-		g.ctx.arc(
-			this.x,
-			this.y,
-			this.light.radius,
-			0,
-			2 * Math.PI
-		);
-
-		g.ctx.fill();
-
-		gradient.addColorStop(0, 'rgba(255,255,255,'+this.light.brightness+')');
-		gradient.addColorStop(1, 'rgba(255,255,255,0)');
-		g.ctx.fillStyle = gradient;
-
-		//draw circle
-		g.ctx.beginPath();
-		g.ctx.arc(
+		game.context.beginPath();
+		game.context.arc(
 			this.x,
 			this.y,
 			this.light.radius,
 			this.rad - this.light.fov,
 			this.rad + this.light.fov
 		);
-		g.ctx.lineTo(this.x, this.y);
-		
-		g.ctx.fill();
+		game.context.lineTo(this.x, this.y);
+
+		game.context.fill();
 	}
- 
-	draw(g) {
+
+	draw(game) {
 
 		//draw circle
-		g.ctx.beginPath();
-		g.ctx.arc(
+		game.context.beginPath();
+		game.context.arc(
 			this.x,
 			this.y,
 			this.radius,
 			0,
 			2*Math.PI
 		);
-		g.ctx.fillStyle = 'rgb(255, 255, 255)';
-		g.ctx.fill();
+		game.context.fillStyle = 'rgb(255, 0, 255)';
+		game.context.fill();
 	}
 
 }

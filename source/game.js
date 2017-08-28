@@ -1,124 +1,173 @@
 class Game {
 
 	constructor() {
-		
-		//canvas
-		this.c = document.getElementById('c');
-	    this.c.width = window.innerWidth;
-	    this.c.height = window.innerHeight;
-	    this.width = this.c.width;
-	    this.height = this.c.height;
-	    this.ctx = this.c.getContext("2d");
-	    this.ctx.fillStyle = 0x000000;
 
-	    //state
-	    this.state = 'PLAYING';
+		// set size
+		this.width = 1280;
+		this.height = 720;
 
-	    //var
-	    this.ambient = 0;
-	    
-	    //elems
-	    this.boxes = [];
-	    this.player = null;
+		// canvas
+		this.canvas = document.getElementById('c');
+	  this.canvas.width = this.width;
+		this.canvas.height = this.height;
 
-	    //current timestamp
-		this.lastTimestamp = new Date(); 
+		// get context
+		this.context = this.canvas.getContext("2d");
+
+		// set default state
+	  this.state = PLAYING;
+
+	  // set ambient light intensity
+	  this.ambient = 0.3;
+
+	  //game elements
+	  this.boxes = [];
+	  this.player = null;
+
+		// set current timestamp
+		this.lastTimestamp = new Date();
 
 		// shim layer with setTimeout fallback
-		window.requestAnimationFrame = (function(){
-			return  window.requestAnimationFrame       ||
-		          	window.webkitRequestAnimationFrame ||
-		          	window.mozRequestAnimationFrame    ||
-		          	function( callback ){
-		            	window.setTimeout(callback, 1000 / 60);
-					};
-		})();
-		
+		window.requestAnimationFrame = (() => (
+			window.requestAnimationFrame       ||
+			window.webkitRequestAnimationFrame ||
+			window.mozRequestAnimationFrame    ||
+			((callback) => window.setTimeout(callback, 1000 / 60))
+		))();
+
 	}
 
 	loop() {
 
-  		let now = new Date();
-  		let dt = (now - this.lastTimestamp)/1000;
-  
-  		this.draw();
-  		this.update(dt);
-  
-  		this.lastTimestamp = now;
-  		requestAnimationFrame(this.loop.bind(this));
+		// get current time
+		const now = new Date();
+
+		// calulate deltatime
+  	const deltaTime = (now - this.lastTimestamp)/1000;
+
+		// draw current state
+		this.draw();
+
+		// update current state
+		this.update(deltaTime);
+
+		// save current timestamp
+  	this.lastTimestamp = now;
+
+		// request new frame and rerun loop
+		requestAnimationFrame(this.loop.bind(this));
 
 	}
 
 	run() {
 
-		this.new();
+		// set up game for the first time
+		this.setup();
+
+		// start the game loop
 		this.loop();
 
 	}
 
-	new() {
+	setup() {
 
-		//set player
+		// set player
 		this.player = new Player(this);
 
-		//add boxed
-		for (let i = 0; i < 10; i++) {
-			this.boxes.push(new Box(i*100 - 520, i*100 - 490, 50, 100));
+		// add boxed
+		for (let i = 0; i < 1; i++) {
+			this.boxes.push(new Box(i*100, i*100, 200, 200));
 		}
 
-		this.boxes.push(new Box(-200, 200, 200, 200));
+		// add special box for testing
+		//this.boxes.push(new Box(-200, 200, 200, 200));
 
 	}
 
-	clear() {	
-		this.ctx.clearRect(0, 0, this.width, this.height);
-		this.ctx.fillStyle = 'rgba( '+Math.floor(255*this.ambient)+', '+Math.floor(255*this.ambient)+', '+Math.floor(255*this.ambient)+', 1)';
-		this.ctx.fillRect(0, 0, this.width, this.height);
+	clear() {
+
+		// clear canvas
+		this.context.clearRect(0, 0, this.width, this.height);
+
+		// fill with ambient color
+		this.context.fillStyle = 'rgb( '+Math.round(255*this.ambient)+','+Math.round(255*this.ambient)+','+Math.round(255*this.ambient)+')';
+		this.context.fillRect(0, 0, this.width, this.height);
 	}
-	  
+
 	update() {
-		this.player.update(this);
+
+		// check state
+		switch (this.state) {
+			case MENU:
+				break;
+			case PLAYING:
+
+				// update player
+				this.player.update(this);
+
+				break;
+			default:
+
+		}
+
 	}
 
 	draw() {
 
-		//clear
+		// clear canvas
 		this.clear();
 
-		//check state
-		if (this.state === 'MENU') {
-			
-			this.drawMenu();
+		// check state
+		switch (this.state) {
+			case MENU:
 
-		} else if (this.state === 'PLAYING') {
+				// draw menu
+				this.drawMenu();
 
-			let x = this.width/2 - this.player.x;
-			let y = this.height/2 - this.player.y;
-			
-			this.ctx.translate(x, y);
-			
-			this.player.drawLight(this);
+				break;
+			case PLAYING: {
 
-			for (let i = 0; i < this.boxes.length; i++) {
-				this.boxes[i].draw(this);
+				// get translate coordinates
+				const x = this.width/2 - this.player.x;
+				const y = this.height/2 - this.player.y;
+
+				// translate the context
+				this.context.translate(x, y);
+
+				// loop through and draw the boxes
+				for (let i = 0; i < this.boxes.length; i++) {
+					this.boxes[i].draw(this);
+				}
+
+				// draw the player
+				this.player.draw(this);
+
+				// translate the context back
+				this.context.translate(-x, -y);
+
+				// draw the darkness around the player
+				this.player.drawDarkness(this);
+
+				break;
 			}
+			case PAUSED:
 
-			this.player.draw(this);
-			this.ctx.translate(-x, -y);
+				// draw pause menu
+				this.drawPause();
 
-		} else if (this.state === 'PAUSED') {
+				break;
+			default:
 
-			this.drawPause();
 		}
 
 	}
 
 	pause() {
-		this.state = 'PAUSED';
+		this.state = PAUSED;
 	}
 
 	unpause() {
-		this.state = 'PLAYING';
+		this.state = PAUSED;
 	}
 
 }

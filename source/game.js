@@ -117,6 +117,9 @@ export default class Game {
 				// update player
 				this.player.update(this);
 
+				// clear keyboard
+				this.keyboard.clear();
+
 				break;
 			default:
 

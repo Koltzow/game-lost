@@ -14,7 +14,7 @@ Install all node modules using npm.
 npm install
 ```
 
-## Running the project
+### Running the project
 
 Run the project for testing with hot compiling and reloading.
 

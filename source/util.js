@@ -1,4 +1,4 @@
-const rad = (x1, y1, x2, y2) => {
+export const rad = (x1, y1, x2, y2) => {
 
   //calc delta
   let dy = y1 - y2,
@@ -9,7 +9,7 @@ const rad = (x1, y1, x2, y2) => {
 
 };
 
-const calcLight = (x, y) => {
+export const calcLight = (x, y) => {
 
 	let dist = Math.sqrt(x * x + y * y);
 

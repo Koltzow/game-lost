@@ -1,6 +1,18 @@
-class Game {
+import Player from './player';
+import Box from './box';
+import Mouse from './mouse';
+import Keyboard from './keyboard';
+
+const PLAYING     = 'PLAYING';
+const PAUSED      = 'PAUSED';
+const MENU        = 'MENU';
+
+export default class Game {
 
 	constructor() {
+
+		this.mouse = new Mouse();
+		this.keyboard = new Keyboard();
 
 		// set size
 		this.width = 1280;

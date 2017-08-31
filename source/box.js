@@ -1,4 +1,6 @@
-class Box {
+import { rad, calcLight } from './util';
+
+export default class Box {
 
 	constructor(x = 0, y = 0, width = 0, height = 0) {
 		this.x = x;

@@ -1,4 +1,9 @@
-class Player {
+const ARROW_LEFT  = 'ArrowLeft';
+const ARROW_RIGHT = 'ArrowRight';
+const ARROW_UP    = 'ArrowUp';
+const ARROW_DOWN  = 'ArrowDown';
+
+export default class Player {
 
 	constructor() {
 
@@ -96,6 +101,8 @@ class Player {
 
 	update(game) {
 
+		const {keyboard, mouse} = game;
+
 		let deltaY = mouse.y - game.height/2;
 		let deltaX = mouse.x - game.width/2;
 		this.rad = Math.atan2(deltaY, deltaX);
@@ -182,7 +189,7 @@ class Player {
 			0,
 			2*Math.PI
 		);
-		game.context.fillStyle = 'rgb(255, 0, 255)';
+		game.context.fillStyle = 'rgb(255, 255, 255)';
 		game.context.fill();
 	}
 

@@ -1,4 +1,4 @@
-class KeyListener {
+export default class Keybord {
 
 	constructor() {
 

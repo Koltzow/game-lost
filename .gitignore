@@ -1,3 +1,4 @@
 .DS_Store
 *.codekit3
+*.zip
 /node_modules

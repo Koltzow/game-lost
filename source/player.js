@@ -79,12 +79,11 @@ export default class Player {
 		// reset colliding
 		this.colliding = false;
 
-		for (let i = 0; i < game.boxes.length; i++) {
-			if(this.testCollision(game.boxes[i])){
-
-				this.resolveCollision(game.boxes[i]);
+		game.trees.every(tree => {
+			if(this.testCollision(tree)){
+				this.resolveCollision(tree);
 			}
-		}
+		});
 	}
 
 	draw(game) {

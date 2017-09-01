@@ -1,5 +1,5 @@
 import Player from './player';
-import Box from './box';
+import Tree from './tree';
 import Mouse from './mouse';
 import Keyboard from './keyboard';
 
@@ -35,7 +35,7 @@ export default class Game {
 		this.backgroundColor = '#666';
 
 	  //game elements
-	  this.boxes = [];
+	  this.trees = [];
 	  this.player = null;
 
 		// set current timestamp
@@ -93,7 +93,7 @@ export default class Game {
 		this.player = new Player(this);
 
 		// add special box for testing
-		//this.boxes.push(new Box(-200, 200, 200, 200));
+		this.trees.push(new Tree(100, 100));
 
 	}
 
@@ -159,13 +159,13 @@ export default class Game {
 				// translate the context
 				this.context.translate(x, y);
 
-				// loop through and draw the boxes
-				for (let i = 0; i < this.boxes.length; i++) {
-					this.boxes[i].draw(this);
-				}
-
 				// draw the player
 				this.player.draw(this);
+
+				// loop through and draw the boxes
+				this.trees.every(tree => {
+					tree.draw(this);
+				});
 
 				// translate the context back
 				this.context.translate(-x, -y);

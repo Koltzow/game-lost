@@ -39,13 +39,13 @@ if [ $SIZE -ge $MAXSIZE ]; then
   echo
   echo "Name:    ${BOLD}${NAME}${END}"
   echo "Version: ${BOLD}${VERSION}${END}"
-  echo "Size:    ${RED}${SIZE} B exceeds max size of $MAXSIZE B ${END}"
+  echo "Size:    ${RED}${SIZE} bytes exceeds max size of $MAXSIZE bytes ${END}"
 else
   echo "Build ${GREEN}[succeded]${END}"
   echo
   echo "Name:    ${BOLD}${NAME}${END}"
   echo "Version: ${BOLD}${VERSION}${END}"
-  echo "Size:    ${GREEN}${SIZE} B${END}"
+  echo "Size:    ${GREEN}${SIZE} bytes${END}"
 fi
 echo "File:    ${BOLD}/build/build-${VERSION}.zip${END}"
 echo

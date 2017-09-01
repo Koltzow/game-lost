@@ -12,11 +12,13 @@ export default class Player {
 		this.vx = 0;
 		this.vy = 0;
 		this.rad = 0;
-		this.radius = 10;
+		this.radius = 15;
 		this.speed = 0.5;
 		this.friction = 0.9;
 		this.colliding = false;
 		this.jumping = false;
+		this.facecolor = '#FFDABC';
+		this.hoodcolor = '#FF3E5F';
     this.light = {
     	fov: 1,
     	radius: 300,
@@ -103,10 +105,6 @@ export default class Player {
 
 		const {keyboard, mouse} = game;
 
-		let deltaY = mouse.y - game.height/2;
-		let deltaX = mouse.x - game.width/2;
-		this.rad = Math.atan2(deltaY, deltaX);
-
 		//left
 		if (keyboard.isPressed(ARROW_LEFT) || keyboard.isPressed('a')) {
 			this.vx -= this.speed;
@@ -126,6 +124,8 @@ export default class Player {
 		if(keyboard.isPressed(ARROW_DOWN) || keyboard.isPressed('s')){
 			this.vy += this.speed;
 		}
+
+		this.rad = Math.atan2(this.vy, this.vx);
 
 		//pos
 		this.x += this.vx;
@@ -149,11 +149,10 @@ export default class Player {
 
 		let gradient = game.context.createRadialGradient(game.width/2, game.height/2, 0, game.width/2, game.height/2, this.light.radius*10);
 		gradient.addColorStop(0, 'rgba(0,0,0,'+game.ambient+')');
-		gradient.addColorStop(0.1, 'rgba(0,0,0,1)');
+		gradient.addColorStop(0.2, 'rgba(0,0,0,1)');
 		game.context.fillStyle = gradient;
 
 		game.context.fillRect(0, 0, game.width, game.height);
-
 
 	}
 
@@ -180,7 +179,10 @@ export default class Player {
 
 	draw(game) {
 
-		//draw circle
+		// set color
+		game.context.fillStyle = this.hoodcolor;
+
+		// draw circle
 		game.context.beginPath();
 		game.context.arc(
 			this.x,
@@ -189,7 +191,21 @@ export default class Player {
 			0,
 			2*Math.PI
 		);
-		game.context.fillStyle = 'rgb(255, 255, 255)';
+
+		game.context.fill();
+
+		game.context.fillStyle = this.facecolor;
+
+		// draw face
+		game.context.beginPath();
+		game.context.arc(
+			this.x,
+			this.y,
+			this.radius,
+			this.rad - 1.1,
+			this.rad + 1.1
+		);
+
 		game.context.fill();
 	}
 

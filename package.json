@@ -11,6 +11,10 @@
   "scripts": {
     "babel": "babel --presets es2015 source/index.js -o -p build/bundle.js",
     "start": "http-server",
-    "webpack": "webpack"
+    "webpack": "webpack",
+    "dev": "webpack-dev-server --content-base build/",
+    "dev-compress": "webpack-dev-server --compress --content-base build/",
+    "prod": "webpack",
+    "build": "sh build.sh"
   }
 }

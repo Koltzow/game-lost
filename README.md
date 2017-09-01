@@ -16,10 +16,10 @@ npm install
 
 ### Running the project
 
-Run the project for testing with hot compiling and reloading.
+Run the project for testing with hot compiling and reloading, uncompressed.
 
 ```
-webpack-dev-server
+nmp run dev
 ```
 
 This will start a webserver at `localhost:8080`.
@@ -28,16 +28,32 @@ Every time you change and save a file it will compile and load the new bundle fi
 For hot testing with a compressed test version of the bundle file run:
 
 ```
-webpack-dev-server --compress
+npm run dev-compress
 ```
 
-### Build
+### Compile javascript
 
-If you just want to create a compressed build run
+If you just want to create a compressed bundle of the javascript run
+
+```
+npm run prod
+```
+
+of
 
 ```
 webpack
 ```
+
+### Build
+
+When you are ready make a build run
+
+```
+npm run build
+```
+
+This compiles and compresses the javascript, then zip the project with the current version name and checks the filesize
 
 ### Notes
 

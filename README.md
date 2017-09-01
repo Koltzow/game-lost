@@ -53,7 +53,9 @@ When you are ready make a build run
 npm run build
 ```
 
-This compiles and compresses the javascript, then zip the project with the current version name and checks the filesize
+This compiles and compresses the javascript,
+then it zips the project with the current version name.
+Lastly it validates that the file size is within the limit of 13Kb
 
 ### Notes
 

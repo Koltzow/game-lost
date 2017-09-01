@@ -47,7 +47,7 @@ webpack
 
 ### Build
 
-When you are ready make a build run
+When you are ready to make a build run
 
 ```
 npm run build

@@ -11,8 +11,6 @@ export default class Tree {
       return randomBetween(0.5, 1);
     });
 
-    console.log(this.points);
-
   }
 
   update(game) {

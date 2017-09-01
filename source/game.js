@@ -32,6 +32,8 @@ export default class Game {
 	  // set ambient light intensity
 	  this.ambient = 0.3;
 
+		this.backgroundColor = '#666';
+
 	  //game elements
 	  this.boxes = [];
 	  this.player = null;
@@ -103,6 +105,7 @@ export default class Game {
 
 		// fill with ambient color
 		this.context.fillStyle = 'rgb( '+Math.round(255*this.ambient)+','+Math.round(255*this.ambient)+','+Math.round(255*this.ambient)+')';
+		this.context.fillStyle = this.backgroundColor;
 		this.context.fillRect(0, 0, this.width, this.height);
 	}
 

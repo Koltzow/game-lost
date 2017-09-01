@@ -49,6 +49,10 @@ export default class Game {
 			((callback) => window.setTimeout(callback, 1000 / 60))
 		))();
 
+		this.gradient = this.context.createRadialGradient(this.width/2, this.height/2, 0, this.width/2, this.height/2, 3000);
+		this.gradient.addColorStop(0, 'rgba(0,0,0,'+this.ambient+')');
+		this.gradient.addColorStop(0.2, 'rgba(0,0,0,1)');
+
 	}
 
 	loop() {
@@ -88,13 +92,16 @@ export default class Game {
 		// set player
 		this.player = new Player(this);
 
-		// add boxed
-		for (let i = 0; i < 1; i++) {
-			this.boxes.push(new Box(i*100, i*100, 200, 200));
-		}
-
 		// add special box for testing
 		//this.boxes.push(new Box(-200, 200, 200, 200));
+
+	}
+
+	drawDarkness() {
+
+		// draw gradient
+		this.context.fillStyle = this.gradient;
+		this.context.fillRect(0, 0, this.width, this.height);
 
 	}
 
@@ -164,7 +171,7 @@ export default class Game {
 				this.context.translate(-x, -y);
 
 				// draw the darkness around the player
-				this.player.drawDarkness(this);
+				this.drawDarkness();
 
 				break;
 			}

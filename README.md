@@ -39,7 +39,7 @@ If you just want to create a compressed bundle of the javascript run
 npm run prod
 ```
 
-of
+or
 
 ```
 webpack

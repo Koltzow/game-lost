@@ -1,3 +1,8 @@
+export const randomBetween = (min, max) => {
+    // return number
+    return Math.random() * (max + min - 1) + min;
+}
+
 export const rad = (x1, y1, x2, y2) => {
 
   //calc delta

@@ -66,7 +66,7 @@ export default class Box {
 		//draw vertical side
 		context.beginPath();
 
-		// draw vertical side
+		// draw horizontal side
 		if (offsetY > 0){
 			context.moveTo(x, y);
 	    context.lineTo(x+w, y);

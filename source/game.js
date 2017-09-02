@@ -41,8 +41,8 @@ export default class Game {
     this.grid = null;
 
     // set map dimensions
-    this.columns = 5;
-    this.rows = 5;
+    this.columns = 20;
+    this.rows = 20;
 
 		// set current timestamp
 		this.lastTimestamp = new Date();
@@ -95,17 +95,19 @@ export default class Game {
 		this.player = new Player(this);
 
     // set grid
-    this.grid = new Grid(this.columns, this.rows, 300, 300);
-
+    this.grid = new Grid(this);
 
 		// add boxed
 		for (let i = 0; i < this.grid.columns * this.grid.rows; i++) {
-      var divider = Math.ceil(Math.random() * 4);
+      const divider = Math.ceil(Math.random() * 4);
+      const xOffset = Math.ceil(Math.random() * 2);
+      const yOffset = Math.ceil(Math.random() * 2);
+
       this.boxes.push(new Box(
-        (i % 5) * 250 + ((200 / (5 - divider)) / 2),
-        Math.floor(i / 5) * 250 + ((200 / (5 - divider)) / 2),
-        200 / divider,
-        200 / divider));
+        ((i % this.grid.columns) * 150) + (((150 - (150 / divider))) / xOffset),
+        (Math.floor(i / this.grid.rows) * 150) + (((150 - (150 / divider))) / yOffset),
+        150 / divider,
+        150 / divider));
 		}
 
 		// add special box for testing

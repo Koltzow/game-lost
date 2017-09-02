@@ -1,9 +1,9 @@
 export default class Grid {
-  constructor( columns = 5, rows = 5, columnWidth = 200, rowHeight = 200){
-    this.columns = columns;
-    this.rows = rows;
+  constructor(game){
+    this.columns = game.columns || 5;
+    this.rows = game.rows || 5;
 
-    this.columnWidth = columnWidth;
-    this.rowHeight = rowHeight;
+    this.columnWidth = game.columnWidth || 300;
+    this.rowHeight = game.rowHeight || 300;
   }
 }

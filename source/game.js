@@ -2,6 +2,7 @@ import Player from './player';
 import Box from './box';
 import Mouse from './mouse';
 import Keyboard from './keyboard';
+import Grid from './grid';
 
 const PLAYING     = 'PLAYING';
 const PAUSED      = 'PAUSED';
@@ -37,6 +38,11 @@ export default class Game {
 	  //game elements
 	  this.boxes = [];
 	  this.player = null;
+    this.grid = null;
+
+    // set map dimensions
+    this.columns = 5;
+    this.rows = 5;
 
 		// set current timestamp
 		this.lastTimestamp = new Date();
@@ -88,9 +94,18 @@ export default class Game {
 		// set player
 		this.player = new Player(this);
 
+    // set grid
+    this.grid = new Grid(this.columns, this.rows, 300, 300);
+
+
 		// add boxed
-		for (let i = 0; i < 1; i++) {
-			this.boxes.push(new Box(i*100, i*100, 200, 200));
+		for (let i = 0; i < this.grid.columns * this.grid.rows; i++) {
+      var divider = Math.ceil(Math.random() * 4);
+      this.boxes.push(new Box(
+        (i % 5) * 250 + ((200 / (5 - divider)) / 2),
+        Math.floor(i / 5) * 250 + ((200 / (5 - divider)) / 2),
+        200 / divider,
+        200 / divider));
 		}
 
 		// add special box for testing

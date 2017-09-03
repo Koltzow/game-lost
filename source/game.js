@@ -4,9 +4,12 @@ import Mouse from './mouse';
 import Keyboard from './keyboard';
 import Grid from './grid';
 
+import { randomIntInRange } from './util';
+
 const PLAYING     = 'PLAYING';
 const PAUSED      = 'PAUSED';
 const MENU        = 'MENU';
+
 
 export default class Game {
 
@@ -97,18 +100,8 @@ export default class Game {
     // set grid
     this.grid = new Grid(this);
 
-		// add boxed
-		for (let i = 0; i < this.grid.columns * this.grid.rows; i++) {
-      const divider = Math.ceil(Math.random() * 4);
-      const xOffset = Math.ceil(Math.random() * 2);
-      const yOffset = Math.ceil(Math.random() * 2);
-
-      this.boxes.push(new Box(
-        ((i % this.grid.columns) * 150) + (((150 - (150 / divider))) / xOffset),
-        (Math.floor(i / this.grid.rows) * 150) + (((150 - (150 / divider))) / yOffset),
-        150 / divider,
-        150 / divider));
-		}
+		// add boxes
+    this.grid.drawBoxes(this);
 
 		// add special box for testing
 		//this.boxes.push(new Box(-200, 200, 200, 200));

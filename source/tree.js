@@ -6,13 +6,8 @@ export default class Tree {
 
     this.x = x;
     this.y = y;
-<<<<<<< HEAD
     this.trunkRadius = trunkRadius;
     this.leafRadius = leafRadius;
-=======
-    this.trunkRadius = 15;
-    this.leafRadius = 100;
->>>>>>> Add wind to trees
     this.amplitude = 0.5;
     this.detail = 20;
     this.points = Array(this.detail).fill().map((i) => {

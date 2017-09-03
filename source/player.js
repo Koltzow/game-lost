@@ -98,6 +98,12 @@ export default class Player {
 	draw(game) {
 
 		// draw circle
+		game.context.fillStyle = 'rgba(0,0,0,0.2)';
+		game.context.beginPath();
+		game.context.arc( this.x, this.y, this.radius*1.2, 0, 2*Math.PI );
+		game.context.fill();
+
+		// draw circle
 		game.context.fillStyle = this.hoodcolor;
 		game.context.beginPath();
 		game.context.arc( this.x, this.y, this.radius, 0, 2*Math.PI );
@@ -120,21 +126,29 @@ export default class Player {
 		// draw face
 		game.context.fillStyle = this.facecolor;
 		game.context.beginPath();
-		game.context.arc( this.x, this.y, this.radius, this.radian - 1.1, this.radian + 1.1 );
+		const p4 = rotatePoint(this.x, this.y, this.radian, this.x + this.radius*0.2, this.y);
+		game.context.arc( p4.x, p4.y, this.radius*0.8, this.radian - 1.5, this.radian + 1.5 );
+		game.context.fill();
+
+		// draw nose
+		const nose = rotatePoint(this.x, this.y, this.radian, this.x + this.radius, this.y);
+		game.context.beginPath();
+		game.context.arc( nose.x, nose.y, this.radius * 0.15, 0, 2*Math.PI );
 		game.context.fill();
 
 		// draw left eye
-		game.context.fillStyle = '#3981FF';
+		game.context.fillStyle = '#000';
 		const left = rotatePoint(this.x, this.y, this.radian, this.x + this.radius * 0.7, this.y - this.radius * 0.3);
 		game.context.beginPath();
-		game.context.arc( left.x, left.y, this.radius * 0.1, 0, 2*Math.PI );
+		game.context.arc( left.x, left.y, this.radius * 0.06, 0, 2*Math.PI );
 		game.context.fill();
 
 		// draw right eye
 		const right = rotatePoint(this.x, this.y, this.radian, this.x + this.radius * 0.7, this.y + this.radius * 0.3);
 		game.context.beginPath();
-		game.context.arc(right.x, right.y, this.radius * 0.1, 0, 2*Math.PI );
+		game.context.arc(right.x, right.y, this.radius * 0.06, 0, 2*Math.PI );
 		game.context.fill();
+
 
 	}
 

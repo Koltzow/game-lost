@@ -6,8 +6,13 @@ export default class Tree {
 
     this.x = x;
     this.y = y;
+<<<<<<< HEAD
     this.trunkRadius = trunkRadius;
     this.leafRadius = leafRadius;
+=======
+    this.trunkRadius = 15;
+    this.leafRadius = 100;
+>>>>>>> Add wind to trees
     this.amplitude = 0.5;
     this.detail = 20;
     this.points = Array(this.detail).fill().map((i) => {
@@ -39,8 +44,8 @@ export default class Tree {
     game.context.beginPath();
     this.points.forEach((p, i) => {
       game.context.lineTo(
-        this.x + Math.cos(Math.PI*2/this.points.length*(i+1)) * p * this.leafRadius,
-        this.y + Math.sin(Math.PI*2/this.points.length*(i+1)) * p * this.leafRadius
+        this.x + Math.cos(Math.PI*2/this.points.length*(i+1)) * p * this.leafRadius + (game.wind * p) * 5,
+        this.y + Math.sin(Math.PI*2/this.points.length*(i+1)) * p * this.leafRadius + (game.wind * p) * 3
       );
     });
     game.context.fill();

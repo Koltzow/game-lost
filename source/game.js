@@ -41,6 +41,8 @@ export default class Game {
 
 		this.backgroundColor = '#666';
 
+		this.wind = 0;
+
 	  //game elements
 	  this.trees = [];
 		this.steps = [];
@@ -147,6 +149,8 @@ export default class Game {
 			case MENU:
 				break;
 			case PLAYING:
+
+				this.wind = Math.sin(this.frame / 40);
 
 				// update steps
 				this.steps.every(step => {

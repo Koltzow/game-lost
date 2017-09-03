@@ -6,6 +6,12 @@ export default class Keybord {
 		this.pressedKeys = {};
 		this.clickedKeys = {};
 
+		//constants
+		this.ARROW_LEFT  = 'ArrowLeft';
+		this.ARROW_RIGHT = 'ArrowRight';
+		this.ARROW_UP    = 'ArrowUp';
+		this.ARROW_DOWN  = 'ArrowDown';
+
 		// add event listeners
 		document.addEventListener('keydown', this.keydown.bind(this));
 		document.addEventListener('keyup', this.keyup.bind(this));

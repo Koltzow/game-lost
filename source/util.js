@@ -1,3 +1,8 @@
+export const randomBetween = (min, max) => {
+    // return number
+    return Math.random() * (max + min - 1) + min;
+}
+
 export const rad = (x1, y1, x2, y2) => {
 
   //calc delta
@@ -7,6 +12,29 @@ export const rad = (x1, y1, x2, y2) => {
   //return rad
   return Math.atan2(dy, dx);
 
+};
+
+export const rotatePoint = (cx, cy, angle, px, py) => {
+  const s = Math.sin(angle);
+  const c = Math.cos(angle);
+
+  // translate point back to origin
+  px -= cx;
+  py -= cy;
+
+	// calc new offset
+  const xnew = px * c - py * s;
+  const ynew = px * s + py * c;
+
+  // translate point back
+  px = xnew + cx;
+  py = ynew + cy;
+
+  // return points
+  return {
+    x: px,
+    y: py
+  };
 };
 
 export const calcLight = (x, y) => {

@@ -1,5 +1,5 @@
 import Player from './player';
-import Box from './box';
+import Tree from './tree';
 import Mouse from './mouse';
 import Keyboard from './keyboard';
 
@@ -26,6 +26,9 @@ export default class Game {
 		// get context
 		this.context = this.canvas.getContext("2d");
 
+		// frame counter
+		this.frame = 0;
+
 		// set default state
 	  this.state = PLAYING;
 
@@ -35,7 +38,7 @@ export default class Game {
 		this.backgroundColor = '#666';
 
 	  //game elements
-	  this.boxes = [];
+	  this.trees = [];
 	  this.player = null;
 
 		// set current timestamp
@@ -49,9 +52,16 @@ export default class Game {
 			((callback) => window.setTimeout(callback, 1000 / 60))
 		))();
 
+		this.gradient = this.context.createRadialGradient(this.width/2, this.height/2, 0, this.width/2, this.height/2, 3000);
+		this.gradient.addColorStop(0, 'rgba(0,0,0,'+this.ambient+')');
+		this.gradient.addColorStop(0.2, 'rgba(0,0,0,1)');
+
 	}
 
 	loop() {
+
+		//update frame
+		this.frame++;
 
 		// get current time
 		const now = new Date();
@@ -88,13 +98,16 @@ export default class Game {
 		// set player
 		this.player = new Player(this);
 
-		// add boxed
-		for (let i = 0; i < 1; i++) {
-			this.boxes.push(new Box(i*100, i*100, 200, 200));
-		}
-
 		// add special box for testing
-		//this.boxes.push(new Box(-200, 200, 200, 200));
+		this.trees.push(new Tree(100, 100));
+
+	}
+
+	drawDarkness() {
+
+		// draw gradient
+		this.context.fillStyle = this.gradient;
+		this.context.fillRect(0, 0, this.width, this.height);
 
 	}
 
@@ -152,19 +165,19 @@ export default class Game {
 				// translate the context
 				this.context.translate(x, y);
 
-				// loop through and draw the boxes
-				for (let i = 0; i < this.boxes.length; i++) {
-					this.boxes[i].draw(this);
-				}
-
 				// draw the player
 				this.player.draw(this);
+
+				// loop through and draw the boxes
+				this.trees.every(tree => {
+					tree.draw(this);
+				});
 
 				// translate the context back
 				this.context.translate(-x, -y);
 
 				// draw the darkness around the player
-				this.player.drawDarkness(this);
+				// this.drawDarkness();
 
 				break;
 			}

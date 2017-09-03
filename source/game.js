@@ -3,13 +3,11 @@ import Tree from './tree';
 import Mouse from './mouse';
 import Keyboard from './keyboard';
 import Grid from './grid';
-
 import { randomIntInRange } from './util';
 
 const PLAYING     = 'PLAYING';
 const PAUSED      = 'PAUSED';
 const MENU        = 'MENU';
-
 
 export default class Game {
 
@@ -114,12 +112,6 @@ export default class Game {
 
 		// add trees
     this.grid.addTrees(this);
-
-		// add special box for testing
-		this.trees.push(new Tree(100, 100));
-		this.trees.push(new Tree(200, 200));
-		this.trees.push(new Tree(-100, 150));
-		this.trees.push(new Tree(-50, 200));
 
 	}
 

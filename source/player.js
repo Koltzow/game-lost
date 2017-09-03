@@ -107,10 +107,17 @@ export default class Player {
 
 	draw(game) {
 
-		// draw circle
+		// draw shadow
 		game.context.fillStyle = 'rgba(0,0,0,0.2)';
 		game.context.beginPath();
 		game.context.arc( this.x, this.y, this.radius*1.2, 0, 2*Math.PI );
+		game.context.fill();
+
+		// draw basket
+		game.context.fillStyle = '#CC8D56';
+		game.context.beginPath();
+		const p0 = rotatePoint(this.x, this.y, this.radian, this.x, this.y + this.radius);
+		game.context.arc( p0.x, p0.y, this.radius*0.5, 0, 2*Math.PI );
 		game.context.fill();
 
 		// draw circle

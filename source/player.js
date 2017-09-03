@@ -62,7 +62,19 @@ export default class Player {
 		}
 
 		// calculate radian
-		this.radian = Math.atan2(this.vy, this.vx);
+		const radian = Math.atan2(this.vy, this.vx);
+
+		// get change
+		let diff = radian - this.radian;
+
+		if(diff < -Math.PI){
+			diff += Math.PI*2;
+		} else if (diff > Math.PI) {
+			diff -= Math.PI*2;
+		}
+
+		// apply rotation with lerp
+		this.radian += diff * 0.1;
 
 		// update position
 		this.x += this.vx;
@@ -75,6 +87,7 @@ export default class Player {
 		// reset colliding
 		this.colliding = false;
 
+		// test collision with trees
 		game.trees.every(tree => {
 			if(this.testCollision(tree)){
 				this.resolveCollision(tree);

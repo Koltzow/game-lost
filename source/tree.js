@@ -9,7 +9,7 @@ export default class Tree {
     this.trunkRadius = trunkRadius;
     this.leafRadius = leafRadius;
     this.amplitude = 0.5;
-    this.detail = 10;
+    this.detail = 20;
     this.points = Array(this.detail).fill().map((i) => {
       return randomBetween(1-this.amplitude, 1);
     });

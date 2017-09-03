@@ -22,6 +22,13 @@ NAME=$(cat package.json \
 echo "Building ${BOLD}${NAME}${END} version ${BOLD}${VERSION}${END} for production..."
 echo
 
+if [ ! -d "build" ]; then
+  echo "Creating build foler..."
+  mkdir "build"
+  echo "Folder created"
+  echo
+fi
+
 webpack
 
 echo

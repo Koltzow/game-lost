@@ -2,10 +2,14 @@ import Player from './player';
 import Tree from './tree';
 import Mouse from './mouse';
 import Keyboard from './keyboard';
+import Grid from './grid';
+
+import { randomIntInRange } from './util';
 
 const PLAYING     = 'PLAYING';
 const PAUSED      = 'PAUSED';
 const MENU        = 'MENU';
+
 
 export default class Game {
 
@@ -40,6 +44,11 @@ export default class Game {
 	  //game elements
 	  this.trees = [];
 	  this.player = null;
+    this.grid = null;
+
+    // set map dimensions
+    this.columns = 20;
+    this.rows = 20;
 
 		// set current timestamp
 		this.lastTimestamp = new Date();
@@ -97,6 +106,12 @@ export default class Game {
 
 		// set player
 		this.player = new Player(this);
+
+    // set grid
+    this.grid = new Grid(this);
+
+		// add boxes
+    // this.grid.drawBoxes(this);
 
 		// add special box for testing
 		this.trees.push(new Tree(100, 100));

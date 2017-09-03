@@ -43,6 +43,7 @@ export default class Game {
 
 	  //game elements
 	  this.trees = [];
+		this.steps = [];
 	  this.player = null;
     this.grid = null;
 
@@ -147,6 +148,11 @@ export default class Game {
 				break;
 			case PLAYING:
 
+				// update steps
+				this.steps.every(step => {
+					return step.update(this);
+				});
+
 				// update player
 				this.player.update(this);
 
@@ -181,6 +187,11 @@ export default class Game {
 
 				// translate the context
 				this.context.translate(x, y);
+
+				// draw steps
+				this.steps.every(step => {
+					return step.draw(this);
+				});
 
 				// draw the player
 				this.player.draw(this);

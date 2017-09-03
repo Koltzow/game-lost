@@ -1,4 +1,5 @@
 import { rotatePoint } from './util';
+import Step from './step';
 
 export default class Player {
 
@@ -79,6 +80,15 @@ export default class Player {
 		// update position
 		this.x += this.vx;
 		this.y += this.vy;
+
+
+		if(game.frame % 10 === 0 && (Math.round(this.vx) !== 0 || Math.round(this.vy) !== 0)){
+
+			// add footstep
+			const step = new Step(this.x,this.y);
+			game.steps.unshift(step);
+
+		}
 
 		// apply friction
 		this.vx *= this.friction;

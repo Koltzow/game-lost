@@ -45,6 +45,8 @@ export default class Tree {
     });
     game.context.fill();
 
+    return true;
+
   }
 
 }

@@ -114,6 +114,9 @@ export default class Game {
 
 		// add special box for testing
 		this.trees.push(new Tree(100, 100));
+		this.trees.push(new Tree(200, 200));
+		this.trees.push(new Tree(-100, 150));
+		this.trees.push(new Tree(-50, 200));
 
 	}
 

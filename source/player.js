@@ -9,7 +9,7 @@ export default class Player {
 		this.vx = 0;
 		this.vy = 0;
 		this.radian = 0;
-		this.radius = 15;
+		this.radius = 12;
 		this.speed = 0.3;
 		this.friction = 0.9;
 		this.colliding = false;

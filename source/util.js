@@ -14,6 +14,29 @@ export const rad = (x1, y1, x2, y2) => {
 
 };
 
+export const rotatePoint = (cx, cy, angle, px, py) => {
+  const s = Math.sin(angle);
+  const c = Math.cos(angle);
+
+  // translate point back to origin
+  px -= cx;
+  py -= cy;
+
+	// calc new offset
+  const xnew = px * c - py * s;
+  const ynew = px * s + py * c;
+
+  // translate point back
+  px = xnew + cx;
+  py = ynew + cy;
+
+  // return points
+  return {
+    x: px,
+    y: py
+  };
+};
+
 export const calcLight = (x, y) => {
 
 	let dist = Math.sqrt(x * x + y * y);

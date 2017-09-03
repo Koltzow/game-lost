@@ -2,12 +2,12 @@ import { randomBetween } from './util';
 
 export default class Tree {
 
-  constructor(x = 0, y = 0) {
+  constructor(x = 0, y = 0, trunkRadius = 20, leafRadius = 100) {
 
     this.x = x;
     this.y = y;
-    this.trunkRadius = 20;
-    this.leafRadius = 100;
+    this.trunkRadius = trunkRadius;
+    this.leafRadius = leafRadius;
     this.amplitude = 0.5;
     this.detail = 10;
     this.points = Array(this.detail).fill().map((i) => {

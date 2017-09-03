@@ -46,10 +46,6 @@ export default class Game {
 	  this.player = null;
     this.grid = null;
 
-    // set map dimensions
-    this.columns = 20;
-    this.rows = 20;
-
 		// set current timestamp
 		this.lastTimestamp = new Date();
 
@@ -108,10 +104,13 @@ export default class Game {
 		this.player = new Player(this);
 
     // set grid
-    this.grid = new Grid(this);
+    this.grid = new Grid();
 
 		// add boxes
     // this.grid.drawBoxes(this);
+
+		// add trees
+    this.grid.addTrees(this);
 
 		// add special box for testing
 		this.trees.push(new Tree(100, 100));
@@ -184,7 +183,7 @@ export default class Game {
 				this.player.draw(this);
 
 				// loop through and draw the boxes
-				this.trees.every(tree => {
+				this.trees.forEach(tree => {
 					tree.draw(this);
 				});
 

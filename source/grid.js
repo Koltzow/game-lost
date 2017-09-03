@@ -1,29 +1,64 @@
 import Box from './box';
-import { randomIntInRange } from './util';
+import Tree from './tree';
+import {
+  randomIntInRange,
+  randomBetween
+  } from './util';
 
 export default class Grid {
 
-  constructor(game){
+  constructor(columns = 20, rows = 20, columnWidth = 150, rowHeight = 150){
 
     // number of columns and rows
-    this.columns = game.columns || 5;
-    this.rows = game.rows || 5;
+    this.columns = columns;
+    this.rows = rows;
 
     // grid area
     this.area = this.columns * this.rows;
 
     // width of columns and rows
-    this.columnWidth = game.columnWidth || 150;
-    this.rowHeight = game.rowHeight || 150;
-
-    this.gridMargin = 100;
+    this.columnWidth = columnWidth;
+    this.rowHeight = rowHeight;
 
     // number of box sizes
     this.boxScales = 5;
 
   }
 
-  drawBoxes(game){
+
+  randomOffset(length){
+
+    // used to divide side length
+    const divider = randomIntInRange(1, this.boxScales);
+
+    // get box width and height
+    const width = length / divider;
+
+    // Get an offset that is a multiple of width,
+    // between 0 and this.columnWidth - boxWidth
+    return width * randomIntInRange(0, divider);
+
+  }
+
+
+  addTrees(game){
+
+    for (let i = 0; i < this.area; i++) {
+
+      // Add trees to game
+      game.trees.push( new Tree(
+        (( i % this.columns ) * this.columnWidth ) + this.randomOffset(this.columnWidth),
+        (Math.floor( i / this.rows ) * this.rowHeight) + this.randomOffset(this.rowHeight),
+        randomIntInRange(15, 20),
+        randomIntInRange(50, 150)
+      ));
+
+    }
+
+  }
+
+
+  addBoxes(game){
 
     for (let i = 0; i < this.area; i++) {
 
@@ -41,8 +76,8 @@ export default class Grid {
 
       // Add boxes to game
       game.boxes.push( new Box(
-        ( ( i % this.columns ) * this.columnWidth ) + widthOffset + this.gridMargin,
-        ( Math.floor( i / this.rows ) * this.rowHeight ) + heightOffset + this.gridMargin,
+        (( i % this.columns ) * this.columnWidth ) + widthOffset,
+        ( Math.floor( i / this.rows ) * this.rowHeight ) + heightOffset,
         width,
         height
       ));

@@ -15,3 +15,9 @@ export const calcLight = (x, y) => {
 
 	return 'hsl(0,0%,'+(dist*2-100)+'%)';
 };
+
+// Returns a random integer between min (inclusive) and max (inclusive)
+export const randomIntInRange = (min, max) => {
+
+    return Math.floor(Math.random() * (max - min)) + min;
+};

@@ -26,6 +26,9 @@ export default class Game {
 		// get context
 		this.context = this.canvas.getContext("2d");
 
+		// frame counter
+		this.frame = 0;
+
 		// set default state
 	  this.state = PLAYING;
 
@@ -56,6 +59,9 @@ export default class Game {
 	}
 
 	loop() {
+
+		//update frame
+		this.frame++;
 
 		// get current time
 		const now = new Date();
@@ -171,7 +177,7 @@ export default class Game {
 				this.context.translate(-x, -y);
 
 				// draw the darkness around the player
-				this.drawDarkness();
+				// this.drawDarkness();
 
 				break;
 			}

@@ -6,9 +6,12 @@ export default class Tree {
 
     this.x = x;
     this.y = y;
-    this.radius = 20;
-    this.points = Array(6).fill().map((i) => {
-      return randomBetween(0.5, 1);
+    this.trunkRadius = 20;
+    this.leafRadius = 100;
+    this.amplitude = 0.5;
+    this.detail = 10;
+    this.points = Array(this.detail).fill().map((i) => {
+      return randomBetween(1-this.amplitude, 1);
     });
 
   }
@@ -25,7 +28,7 @@ export default class Tree {
     game.context.arc(
       this.x,
       this.y,
-      this.radius,
+      this.trunkRadius,
       0,
       2*Math.PI
     );
@@ -36,8 +39,8 @@ export default class Tree {
     game.context.beginPath();
     this.points.forEach((p, i) => {
       game.context.lineTo(
-        this.x + Math.cos(Math.PI/3*(i+1)) * p * 100,
-        this.y + Math.sin(Math.PI/3*(i+1)) * p * 100
+        this.x + Math.cos(Math.PI*2/this.points.length*(i+1)) * p * this.leafRadius,
+        this.y + Math.sin(Math.PI*2/this.points.length*(i+1)) * p * this.leafRadius
       );
     });
     game.context.fill();

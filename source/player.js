@@ -1,8 +1,3 @@
-const ARROW_LEFT  = 'ArrowLeft';
-const ARROW_RIGHT = 'ArrowRight';
-const ARROW_UP    = 'ArrowUp';
-const ARROW_DOWN  = 'ArrowDown';
-
 export default class Player {
 
 	constructor() {
@@ -46,22 +41,22 @@ export default class Player {
 		const {keyboard, mouse} = game;
 
 		// check for left keys
-		if (keyboard.isPressed(ARROW_LEFT) || keyboard.isPressed('a')) {
+		if (keyboard.isPressed(keyboard.ARROW_LEFT) || keyboard.isPressed('a')) {
 			this.vx -= this.speed;
 		}
 
 		// check for right keys
-		if (keyboard.isPressed(ARROW_RIGHT) || keyboard.isPressed('d')) {
+		if (keyboard.isPressed(keyboard.ARROW_RIGHT) || keyboard.isPressed('d')) {
 			this.vx += this.speed;
 		}
 
 		// check for up keys
-		if (keyboard.isPressed(ARROW_UP) || keyboard.isPressed('w')) {
+		if (keyboard.isPressed(keyboard.ARROW_UP) || keyboard.isPressed('w')) {
 			this.vy -= this.speed;
 		}
 
 		// check for down keys
-		if(keyboard.isPressed(ARROW_DOWN) || keyboard.isPressed('s')){
+		if(keyboard.isPressed(keyboard.ARROW_DOWN) || keyboard.isPressed('s')){
 			this.vy += this.speed;
 		}
 

@@ -17,8 +17,6 @@ export default class Step {
       game.steps.pop();
     }
 
-    return true;
-
   }
 
   draw(game) {
@@ -29,8 +27,6 @@ export default class Step {
     game.context.beginPath();
     game.context.arc(this.x, this.y, this.radius, 0, Math.PI*2);
     game.context.fill();
-
-    return true;
 
   }
 

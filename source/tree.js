@@ -16,9 +16,7 @@ export default class Tree {
 
   }
 
-  update(game) {
-    return true;
-  }
+  update(game) {}
 
   draw(game) {
 
@@ -44,8 +42,6 @@ export default class Tree {
       );
     });
     game.context.fill();
-
-    return true;
 
   }
 

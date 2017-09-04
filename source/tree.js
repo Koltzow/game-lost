@@ -39,8 +39,8 @@ export default class Tree {
     game.context.beginPath();
     this.points.forEach((p, i) => {
       game.context.lineTo(
-        this.x + Math.cos(Math.PI*2/this.points.length*(i+1)) * p * this.leafRadius + (game.wind * p) * 5,
-        this.y + Math.sin(Math.PI*2/this.points.length*(i+1)) * p * this.leafRadius + (game.wind * p) * 3
+        this.x + Math.cos(Math.PI*2/this.points.length*(i+1)) * p * this.leafRadius + (Math.sin(game.frame/30 + p + this.x)*p) * 5,
+        this.y + Math.sin(Math.PI*2/this.points.length*(i+1)) * p * this.leafRadius + (Math.sin(game.frame/30 + p + this.y)*p) * 3
       );
     });
     game.context.fill();

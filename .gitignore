@@ -1,5 +1,5 @@
 .DS_Store
 *.codekit3
 *.zip
-bundle.js
+/build
 /node_modules

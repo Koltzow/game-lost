@@ -3,6 +3,7 @@ import Tree from './tree';
 import Mouse from './mouse';
 import Keyboard from './keyboard';
 import Grid from './grid';
+import Girl from './girl';
 import { randomIntInRange } from './util';
 
 const PLAYING     = 'PLAYING';
@@ -44,6 +45,7 @@ export default class Game {
 	  //game elements
 	  this.trees = [];
 		this.steps = [];
+		this.sisters = [];
 	  this.player = null;
     this.grid = null;
 
@@ -102,10 +104,14 @@ export default class Game {
 	setup() {
 
 		// set player
-		this.player = new Player(this);
+		this.player = new Player(0, 0);
 
     // set grid
     this.grid = new Grid();
+
+		this.sisters = Array(6).fill().map((s, i) => {
+			return new Girl(-50*i, -50*i, 'hsl('+(60 + 270/6*i)+', 100%, 60%)');
+		});
 
 		// add boxes
     // this.grid.drawBoxes(this);
@@ -145,8 +151,13 @@ export default class Game {
 				this.wind = Math.sin(this.frame / 40);
 
 				// update steps
-				this.steps.every(step => {
-					return step.update(this);
+				this.steps.forEach(step => {
+					step.update(this);
+				});
+
+				// update sisters
+				this.sisters.forEach(sister => {
+					sister.update(this);
 				});
 
 				// update player
@@ -185,9 +196,12 @@ export default class Game {
 				this.context.translate(x, y);
 
 				// draw steps
-				this.steps.every(step => {
-					return step.draw(this);
+				this.steps.forEach(step => {
+					step.draw(this);
 				});
+
+				// draw the player private function
+				this.player.drawBefore(this);
 
 				// draw the player
 				this.player.draw(this);
@@ -195,6 +209,11 @@ export default class Game {
 				// loop through and draw the boxes
 				this.trees.forEach(tree => {
 					tree.draw(this);
+				});
+
+				// draw sisters
+				this.sisters.forEach(sister => {
+					sister.draw(this);
 				});
 
 				// translate the context back

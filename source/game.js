@@ -1,5 +1,4 @@
 import Player from './player';
-import Tree from './tree';
 import Mouse from './mouse';
 import Keyboard from './keyboard';
 import Grid from './grid';

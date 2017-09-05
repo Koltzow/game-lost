@@ -1,3 +1,4 @@
+import { distanceBetween } from './util';
 import Step from './step';
 import Girl from './girl';
 
@@ -13,21 +14,6 @@ export default class Player extends Girl {
 		this.sisters = [];
 		this.history = Array(6*20).fill([0,0]);
 		this.colliding = false;
-
-	}
-
-	testCollision(obj) {
-
-		const dx = this.x - obj.x;
-		const dy = this.y - obj.y;
-		const distance = Math.sqrt(dx * dx + dy * dy);
-
-		if (distance < this.radius + obj.radius) {
-			this.colliding = true;
-			return true;
-		}
-
-		return false;
 
 	}
 
@@ -103,7 +89,7 @@ export default class Player extends Girl {
 
 		// test collision with trees
 		game.sisters.forEach((sister, i) => {
-			if(this.testCollision(sister)){
+			if(distanceBetween(this, sister) < 0){
 				this.sisters.unshift(sister);
 				game.sisters.splice(i, 1);
 			}

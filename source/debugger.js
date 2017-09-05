@@ -36,6 +36,8 @@ export default class Debugger {
       game.context.fillText(o, 12, 70 + 25 + i * 20);
     });
 
+    this.clear();
+
   }
 
 }

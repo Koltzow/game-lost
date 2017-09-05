@@ -79,17 +79,11 @@ export default class Game {
 		// calulate deltatime
   	this.deltaTime = now - this.lastTimestamp;
 
-		// clear debugger
-		this.debugger.clear();
-
 		// draw current state
 		this.draw();
 
 		// update current state
 		this.update(this.deltaTime);
-
-		// render debugger
-		this.debugger.draw(this);
 
 		// save current timestamp
   	this.lastTimestamp = now;
@@ -252,6 +246,9 @@ export default class Game {
 			default:
 
 		}
+
+		// render debugger
+		this.debugger.draw(this);
 
 	}
 

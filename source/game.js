@@ -3,6 +3,7 @@ import Mouse from './mouse';
 import Keyboard from './keyboard';
 import Grid from './grid';
 import Girl from './girl';
+import Debugger from './debugger';
 import { randomIntInRange } from './util';
 
 const PLAYING     = 'PLAYING';
@@ -15,6 +16,7 @@ export default class Game {
 
 		this.mouse = new Mouse();
 		this.keyboard = new Keyboard();
+		this.debugger = new Debugger();
 
 		// set size
 		this.width = 1280;
@@ -50,6 +52,7 @@ export default class Game {
 
 		// set current timestamp
 		this.lastTimestamp = new Date();
+		this.deltaTime = 0;
 
 		// shim layer with setTimeout fallback
 		window.requestAnimationFrame = (() => (
@@ -74,13 +77,19 @@ export default class Game {
 		const now = new Date();
 
 		// calulate deltatime
-  	const deltaTime = (now - this.lastTimestamp)/1000;
+  	this.deltaTime = now - this.lastTimestamp;
+
+		// clear debugger
+		this.debugger.clear();
 
 		// draw current state
 		this.draw();
 
 		// update current state
-		this.update(deltaTime);
+		this.update(this.deltaTime);
+
+		// render debugger
+		this.debugger.draw(this);
 
 		// save current timestamp
   	this.lastTimestamp = now;
@@ -174,6 +183,11 @@ export default class Game {
 
 	draw() {
 
+		this.debugger.addFrame(Math.floor(1000/this.deltaTime));
+		this.debugger.add(`State: ${this.state}`);
+		this.debugger.add(`FPS:   ${Math.floor(1000/this.deltaTime)}`);
+
+
 		// clear canvas
 		this.clear();
 
@@ -194,6 +208,8 @@ export default class Game {
 				// translate the context
 				this.context.translate(x, y);
 
+				this.debugger.add(`Steps: ${this.steps.length}`);
+
 				// draw steps
 				this.steps.forEach(step => {
 					step.draw(this);
@@ -205,10 +221,14 @@ export default class Game {
 				// draw the player
 				this.player.draw(this);
 
+				this.debugger.add(`Trees: ${this.trees.length}`);
+
 				// loop through and draw the boxes
 				this.trees.forEach(tree => {
 					tree.draw(this);
 				});
+
+				this.debugger.add(`Chars: ${1 + this.sisters.length + this.player.sisters.length}`);
 
 				// draw sisters
 				this.sisters.forEach(sister => {

@@ -3,6 +3,7 @@ import Mouse from './mouse';
 import Keyboard from './keyboard';
 import Grid from './grid';
 import Girl from './girl';
+import Wolf from './wolf';
 import Debugger from './debugger';
 import { randomIntInRange } from './util';
 
@@ -47,6 +48,7 @@ export default class Game {
 	  this.trees = [];
 		this.steps = [];
 		this.sisters = [];
+		this.wolves = [];
 	  this.player = null;
     this.grid = null;
 
@@ -112,8 +114,10 @@ export default class Game {
     this.grid = new Grid();
 
 		this.sisters = Array(6).fill().map((s, i) => {
-			return new Girl(-50*i, -50*i, 'hsl('+(60 + 270/6*i)+', 100%, 60%)');
+			return new Girl(randomIntInRange(-1000, 1000), randomIntInRange(-1000, 1000), 'hsl('+(60 + 270/6*i)+', 100%, 60%)');
 		});
+
+		this.wolves.push(new Wolf(-200, -200));
 
 		// add boxes
     // this.grid.drawBoxes(this);
@@ -165,6 +169,11 @@ export default class Game {
 				// update player
 				this.player.update(this);
 
+				// update wolves
+				this.wolves.forEach(wolf => {
+					wolf.update(this);
+				});
+
 				// clear keyboard
 				this.keyboard.clear();
 
@@ -209,6 +218,11 @@ export default class Game {
 					step.draw(this);
 				});
 
+				// draw wolves
+				this.wolves.forEach(wolf => {
+					wolf.draw(this);
+				});
+
 				// draw the player private function
 				this.player.drawBefore(this);
 
@@ -233,7 +247,7 @@ export default class Game {
 				this.context.translate(-x, -y);
 
 				// draw the darkness around the player
-				this.drawDarkness();
+				// this.drawDarkness();
 
 				break;
 			}

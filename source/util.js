@@ -3,11 +3,13 @@ export const randomBetween = (min, max) => {
     return Math.random() * (max + min - 1) + min;
 }
 
+export const generateSeed = () => Math.random().toString(36).substring(7);
+
 export const distanceBetween = (self, obj) => {
 
   const dx = self.x - obj.x;
   const dy = self.y - obj.y;
-  
+
   return Math.sqrt(dx * dx + dy * dy) - (self.radius + obj.radius);
 
 };

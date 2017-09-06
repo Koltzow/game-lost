@@ -5,7 +5,7 @@ import Grid from './grid';
 import Girl from './girl';
 import Wolf from './wolf';
 import Debugger from './debugger';
-import { randomIntInRange } from './util';
+import { randomIntInRange, generateSeed } from './util';
 
 const PLAYING     = 'PLAYING';
 const PAUSED      = 'PAUSED';
@@ -30,6 +30,9 @@ export default class Game {
 
 		// get context
 		this.context = this.canvas.getContext("2d");
+
+		// create game seed
+		this.seed = generateSeed();
 
 		// frame counter
 		this.frame = 0;

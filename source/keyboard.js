@@ -7,6 +7,7 @@ export default class Keybord {
 		this.clickedKeys = {};
 
 		//constants
+		this.SPACE 			 = 'Space';
 		this.ARROW_LEFT  = 'ArrowLeft';
 		this.ARROW_RIGHT = 'ArrowRight';
 		this.ARROW_UP    = 'ArrowUp';

@@ -1,23 +1,22 @@
-export const randomBetween = (min, max) => {
-    // return number
-    return Math.random() * (max + min - 1) + min;
-}
+export const randomBetween = (min, max) => Math.random() * (max + min - 1) + min;
+
+export const magnitude = (x, y) => Math.sqrt(x*x + y*y);
 
 export const seededRandomBetween = (string = '', seed = '', min = 0, max = 1) => {
 
-    let hash = 0;
-    string += seed;
-    if (string.length !== 0) {
-      for (var i = 0; i < string.length; i++) {
-          hash = string.charCodeAt(i) + ((hash << 5) - hash);
-          hash = hash & hash; // Convert to 32bit integer
-      }
+  let hash = 0;
+  string += seed;
+  if (string.length !== 0) {
+    for (var i = 0; i < string.length; i++) {
+        hash = string.charCodeAt(i) + ((hash << 5) - hash);
+        hash = hash & hash; // Convert to 32bit integer
     }
+  }
 
-    const rand = (hash * 9301 + 49297) % 233280;
-    const rnd = Math.abs(rand / 233280.0);
+  const rand = (hash * 9301 + 49297) % 233280;
+  const rnd = Math.abs(rand / 233280.0);
 
-    return min + rnd * (max - min);
+  return min + rnd * (max - min);
 
 }
 

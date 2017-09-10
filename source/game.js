@@ -1,7 +1,7 @@
 import Player from './player';
 import Mouse from './mouse';
 import Keyboard from './keyboard';
-import Grid from './grid';
+import World from './world';
 import Girl from './girl';
 import Wolf from './wolf';
 import Debugger from './debugger';
@@ -20,7 +20,7 @@ export default class Game {
 		this.debugger = new Debugger();
 
 		// set size
-		this.width = 1280;
+		this.width = 720;
 		this.height = 720;
 
 		// canvas
@@ -48,12 +48,11 @@ export default class Game {
 		this.wind = 0;
 
 	  //game elements
-	  this.trees = [];
 		this.steps = [];
 		this.sisters = [];
 		this.wolves = [];
 	  this.player = null;
-    this.grid = null;
+    this.world = null;
 
 		// set current timestamp
 		this.lastTimestamp = new Date();
@@ -114,19 +113,18 @@ export default class Game {
 		this.player = new Player(0, 0);
 
     // set grid
-    this.grid = new Grid();
+    this.world = new World({
+			game: this,
+			x: 50,
+			y: 50,
+			size: 140,
+		});
 
 		this.sisters = Array(6).fill().map((s, i) => {
 			return new Girl(randomIntInRange(-1000, 1000), randomIntInRange(-1000, 1000), 'hsl('+(60 + 270/6*i)+', 100%, 60%)');
 		});
 
 		this.wolves.push(new Wolf(-200, -200));
-
-		// add boxes
-    // this.grid.drawBoxes(this);
-
-		// add trees
-    this.grid.addTrees(this);
 
 	}
 
@@ -190,6 +188,7 @@ export default class Game {
 	draw() {
 
 		this.debugger.addFrame(Math.floor(1000/this.deltaTime));
+		this.debugger.add(`Seed:  ${this.seed}`);
 		this.debugger.add(`State: ${this.state}`);
 		this.debugger.add(`FPS:   ${Math.floor(1000/this.deltaTime)}`);
 
@@ -232,13 +231,6 @@ export default class Game {
 				// draw the player
 				this.player.draw(this);
 
-				this.debugger.add(`Trees: ${this.trees.length}`);
-
-				// loop through and draw the boxes
-				this.trees.forEach(tree => {
-					tree.draw(this);
-				});
-
 				this.debugger.add(`Chars: ${1 + this.sisters.length + this.player.sisters.length}`);
 
 				// draw sisters
@@ -246,11 +238,14 @@ export default class Game {
 					sister.draw(this);
 				});
 
+				// draw world
+				this.world.draw(this);
+
 				// translate the context back
 				this.context.translate(-x, -y);
 
 				// draw the darkness around the player
-				// this.drawDarkness();
+				this.drawDarkness();
 
 				break;
 			}

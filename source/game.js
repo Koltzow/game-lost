@@ -6,11 +6,12 @@ import Girl from './girl';
 import Wolf from './wolf';
 import Debugger from './debugger';
 import Menu from './menu';
-import { randomIntInRange, generateSeed } from './util';
+import { randomIntInRange, generateSeed, magnitude } from './util';
 
 const PLAYING     = 'PLAYING';
 const PAUSED      = 'PAUSED';
 const MENU        = 'MENU';
+const FINISHED		= 'FINISHED';
 
 export default class Game {
 
@@ -253,6 +254,10 @@ export default class Game {
 				// draw the darkness around the player
 				this.drawDarkness();
 
+				if (magnitude(this.player.x, this.player.y) > 300) {
+					this.state = FINISHED;
+				}
+
 				break;
 			}
 			case PAUSED:
@@ -261,6 +266,8 @@ export default class Game {
 				this.drawPause();
 
 				break;
+			case FINISHED:
+				break;
 			default:
 
 		}
@@ -268,6 +275,10 @@ export default class Game {
 		// render debugger
 		this.debugger.draw(this);
 
+	}
+
+	end() {
+		console.log('end game');
 	}
 
 	pause() {

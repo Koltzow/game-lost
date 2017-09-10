@@ -3,6 +3,24 @@ export const randomBetween = (min, max) => {
     return Math.random() * (max + min - 1) + min;
 }
 
+export const seededRandomBetween = (string = '', seed = '', min = 0, max = 1) => {
+
+    let hash = 0;
+    string += seed;
+    if (string.length !== 0) {
+      for (var i = 0; i < string.length; i++) {
+          hash = string.charCodeAt(i) + ((hash << 5) - hash);
+          hash = hash & hash; // Convert to 32bit integer
+      }
+    }
+
+    const rand = (hash * 9301 + 49297) % 233280;
+    const rnd = Math.abs(rand / 233280.0);
+
+    return min + rnd * (max - min);
+
+}
+
 export const generateSeed = () => Math.random().toString(36).substring(7);
 
 export const distanceBetween = (self, obj) => {
@@ -56,7 +74,4 @@ export const calcLight = (x, y) => {
 };
 
 // Returns a random integer between min (inclusive) and max (inclusive)
-export const randomIntInRange = (min, max) => {
-
-    return Math.floor(Math.random() * (max - min)) + min;
-};
+export const randomIntInRange = (min, max) => Math.floor(Math.random() * (max - min)) + min;

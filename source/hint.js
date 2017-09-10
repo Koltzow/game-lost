@@ -20,12 +20,17 @@ export default class Hint {
 
       const dist = distanceBetween(game.player, sister);
 
-      if (dist < closest || !this.radian || !closest || !target) {
+      if (dist < closest || !closest) {
         closest = dist;
         target = sister;
       }
 
     });
+
+    if(closest < this.radius) {
+      this.radian = null;
+      return;
+    }
 
     if(target) {
       this.radian = rad(target.x, target.y, game.player.x, game.player.y);

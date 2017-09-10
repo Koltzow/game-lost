@@ -8,6 +8,7 @@ import Debugger from './debugger';
 import Menu from './menu';
 import Endscreen from './endscreen';
 import Timer from './timer';
+import Hint from './hint';
 import { randomIntInRange, generateSeed, magnitude } from './util';
 
 const PLAYING     = 'PLAYING';
@@ -24,6 +25,7 @@ export default class Game {
 		this.debugger = new Debugger();
 		this.menu = new Menu();
 		this.endscreen = new Endscreen();
+		this.hint = new Hint();
 		this.timer = null;
 
 		// set size
@@ -191,6 +193,9 @@ export default class Game {
 				// clear keyboard
 				this.keyboard.clear();
 
+				// update hint
+				this.hint.update(this);
+
 				// update timer
 				this.timer.update();
 
@@ -267,6 +272,9 @@ export default class Game {
 
 				// draw the darkness around the player
 				this.drawDarkness();
+
+				// draw hint
+				this.hint.draw(this);
 
 				// draw timer
 				this.timer.draw(this);

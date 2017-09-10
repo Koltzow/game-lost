@@ -31,6 +31,7 @@ export default class Debugger {
 
     game.context.fillStyle = 'white';
     game.context.font = "15px monospace";
+    game.context.textAlign = 'left';
 
     this.output.forEach((o, i) => {
       game.context.fillText(o, 12, 70 + 25 + i * 20);

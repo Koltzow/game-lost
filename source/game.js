@@ -5,6 +5,7 @@ import World from './world';
 import Girl from './girl';
 import Wolf from './wolf';
 import Debugger from './debugger';
+import Menu from './menu';
 import { randomIntInRange, generateSeed } from './util';
 
 const PLAYING     = 'PLAYING';
@@ -18,6 +19,7 @@ export default class Game {
 		this.mouse = new Mouse();
 		this.keyboard = new Keyboard();
 		this.debugger = new Debugger();
+		this.menu = new Menu();
 
 		// set size
 		this.width = 720;
@@ -38,7 +40,7 @@ export default class Game {
 		this.frame = 0;
 
 		// set default state
-	  this.state = PLAYING;
+	  this.state = MENU;
 
 	  // set ambient light intensity
 	  this.ambient = 0.3;
@@ -152,6 +154,10 @@ export default class Game {
 		// check state
 		switch (this.state) {
 			case MENU:
+
+				// update menu
+				this.menu.update(this);
+
 				break;
 			case PLAYING:
 
@@ -201,7 +207,7 @@ export default class Game {
 			case MENU:
 
 				// draw menu
-				this.drawMenu();
+				this.menu.draw(this);
 
 				break;
 			case PLAYING: {

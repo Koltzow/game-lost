@@ -6,6 +6,7 @@ import Girl from './girl';
 import Wolf from './wolf';
 import Debugger from './debugger';
 import Menu from './menu';
+import Endscreen from './endscreen';
 import { randomIntInRange, generateSeed, magnitude } from './util';
 
 const PLAYING     = 'PLAYING';
@@ -21,6 +22,7 @@ export default class Game {
 		this.keyboard = new Keyboard();
 		this.debugger = new Debugger();
 		this.menu = new Menu();
+		this.endscreen = new Endscreen();
 
 		// set size
 		this.width = 720;
@@ -186,6 +188,11 @@ export default class Game {
 				this.keyboard.clear();
 
 				break;
+			case FINISHED:
+
+				// update endscreen
+				this.endscreen.update(this);
+
 			default:
 
 		}
@@ -267,6 +274,9 @@ export default class Game {
 
 				break;
 			case FINISHED:
+
+				this.endscreen.draw(this);
+
 				break;
 			default:
 

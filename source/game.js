@@ -279,7 +279,7 @@ export default class Game {
 				// draw timer
 				this.timer.draw(this);
 
-				if (magnitude(this.player.x, this.player.y) > 300) {
+				if (magnitude(this.player.x, this.player.y) > 51*140) {
 					this.state = FINISHED;
 				}
 

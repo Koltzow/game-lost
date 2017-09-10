@@ -108,15 +108,17 @@ export default class Game {
 
 	run() {
 
-		// set up game for the first time
-		this.setup();
-
 		// start the game loop
 		this.loop();
 
 	}
 
-	setup() {
+	play() {
+
+		this.player = null;
+		this.world = null;
+		this.sisters = [];
+		this.wolves = [];
 
 		// set player
 		this.player = new Player(0, 0);
@@ -124,8 +126,8 @@ export default class Game {
     // set grid
     this.world = new World({
 			game: this,
-			x: 50,
-			y: 50,
+			x: 5,
+			y: 5,
 			size: 140,
 		});
 
@@ -136,6 +138,8 @@ export default class Game {
 		this.wolves.push(new Wolf(-200, -200));
 
 		this.timer = new Timer();
+
+		this.state = PLAYING;
 
 	}
 
@@ -279,7 +283,7 @@ export default class Game {
 				// draw timer
 				this.timer.draw(this);
 
-				if (magnitude(this.player.x, this.player.y) > 51*140) {
+				if (magnitude(this.player.x, this.player.y) > 6*140) {
 					this.state = FINISHED;
 				}
 
@@ -302,19 +306,6 @@ export default class Game {
 
 		// render debugger
 		this.debugger.draw(this);
-
-	}
-
-	restart() {
-
-		this.player = null;
-		this.world = null;
-		this.sisters = [];
-		this.wolves = [];
-
-		this.setup();
-
-		this.state = PLAYING;
 
 	}
 

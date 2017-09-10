@@ -3,7 +3,7 @@ export default class Menu {
   update(game) {
 
     if(game.keyboard.isPressed(game.keyboard.SPACE)) {
-      game.state = 'PLAYING';
+      game.play();
     }
 
   }

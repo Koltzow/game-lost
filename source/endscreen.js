@@ -3,7 +3,7 @@ export default class Endscreen {
   update(game) {
 
     if (game.keyboard.isPressed(game.keyboard.SPACE)) {
-      game.restart();
+      game.play();
     }
 
   }

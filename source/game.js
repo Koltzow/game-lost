@@ -287,8 +287,17 @@ export default class Game {
 
 	}
 
-	end() {
-		console.log('end game');
+	restart() {
+
+		this.player = null;
+		this.world = null;
+		this.sisters = [];
+		this.wolves = [];
+
+		this.setup();
+
+		this.state = PLAYING;
+
 	}
 
 	pause() {

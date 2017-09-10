@@ -7,6 +7,7 @@ import Wolf from './wolf';
 import Debugger from './debugger';
 import Menu from './menu';
 import Endscreen from './endscreen';
+import Timer from './timer';
 import { randomIntInRange, generateSeed, magnitude } from './util';
 
 const PLAYING     = 'PLAYING';
@@ -23,6 +24,7 @@ export default class Game {
 		this.debugger = new Debugger();
 		this.menu = new Menu();
 		this.endscreen = new Endscreen();
+		this.timer = null;
 
 		// set size
 		this.width = 720;
@@ -131,6 +133,8 @@ export default class Game {
 
 		this.wolves.push(new Wolf(-200, -200));
 
+		this.timer = new Timer();
+
 	}
 
 	drawDarkness() {
@@ -186,6 +190,9 @@ export default class Game {
 
 				// clear keyboard
 				this.keyboard.clear();
+
+				// update timer
+				this.timer.update();
 
 				break;
 			case FINISHED:
@@ -260,6 +267,9 @@ export default class Game {
 
 				// draw the darkness around the player
 				this.drawDarkness();
+
+				// draw timer
+				this.timer.draw(this);
 
 				if (magnitude(this.player.x, this.player.y) > 300) {
 					this.state = FINISHED;

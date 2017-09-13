@@ -1,6 +1,6 @@
 {
   "name": "game-lost",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "devDependencies": {
     "babel-core": "^6.26.0",
     "babel-loader": "^7.1.2",

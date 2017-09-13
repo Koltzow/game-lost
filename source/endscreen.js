@@ -18,8 +18,16 @@ export default class Endscreen {
     game.context.fillStyle = 'white';
     game.context.font = '30px Arial';
     game.context.textAlign = 'center';
-    game.context.fillText('You survived!', game.width/2, game.height*0.4);
-    game.context.fillText(`Sisters saved: ${game.player.sisters.length}`, game.width/2, game.height*0.5);
+    const string = (game.player.dead) ? 'You were eaten!' : 'You survived!';
+    game.context.fillText(string, game.width/2, game.height*0.4);
+    let count = 0;
+    game.player.sisters.forEach(sister => {
+      if(!sister.dead) {
+        count = count + 1;
+      }
+    });
+
+    game.context.fillText(`Sisters saved: ${count}`, game.width/2, game.height*0.5);
 
     if (Math.sin(game.frame/15) > 0.2) {
       game.context.font = '30px Arial';

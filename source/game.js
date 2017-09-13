@@ -129,16 +129,24 @@ export default class Game {
     // set grid
     this.world = new World({
 			game: this,
-			x: 5,
-			y: 5,
+			r: 10,
 			size: 140,
 		});
 
 		this.sisters = Array(6).fill().map((s, i) => {
-			return new Girl(randomIntInRange(-1000, 1000), randomIntInRange(-1000, 1000), 'hsl('+(60 + 270/6*i)+', 100%, 60%)');
+			return new Girl(
+				randomIntInRange(-this.world.radius + 200, this.world.radius - 200),
+				randomIntInRange(-this.world.radius + 200, this.world.radius - 200),
+				'hsl('+(60 + 270/6*i)+', 100%, 60%)',
+			);
 		});
 
-		this.wolves.push(new Wolf(-200, -200));
+		this.wolves = Array(60).fill().map((s, i) => {
+			return new Wolf(
+				randomIntInRange(-this.world.radius + 200, this.world.radius - 200),
+				randomIntInRange(-this.world.radius + 200, this.world.radius - 200),
+			);
+		});
 
 		this.timer = new Timer();
 
@@ -206,6 +214,10 @@ export default class Game {
 				// update timer
 				this.timer.update();
 
+				if(this.sisters.length <= 0){
+					this.messages.push(new Message('Get out of safely!', 1));
+				}
+
 				// update message
 				this.messages.forEach((message, i) => {
 					message.duration > 0 ?
@@ -260,11 +272,6 @@ export default class Game {
 					step.draw(this);
 				});
 
-				// draw wolves
-				this.wolves.forEach(wolf => {
-					wolf.draw(this);
-				});
-
 				// draw the player private function
 				this.player.drawBefore(this);
 
@@ -276,6 +283,11 @@ export default class Game {
 				// draw sisters
 				this.sisters.forEach(sister => {
 					sister.draw(this);
+				});
+
+				// draw wolves
+				this.wolves.forEach(wolf => {
+					wolf.draw(this);
 				});
 
 				// draw world
@@ -293,8 +305,16 @@ export default class Game {
 				// draw timer
 				this.timer.draw(this);
 
-				if (magnitude(this.player.x, this.player.y) > 6*140) {
-					this.state = FINISHED;
+				if (magnitude(this.player.x, this.player.y) > this.world.radius + 200) {
+
+					if(this.sisters.length <= 0){
+						this.state = FINISHED;
+					} else {
+						// turn around
+						this.messages.push(new Message('Turn around, missing sisters!', 1));
+						this.player.vx *= 0.2;
+						this.player.vy *= 0.2;
+					}
 				}
 
 				// draw message
@@ -320,7 +340,7 @@ export default class Game {
 		}
 
 		// render debugger
-		this.debugger.draw(this);
+		//this.debugger.draw(this);
 
 	}
 

@@ -8,10 +8,11 @@ import {
 
 export default class Grid {
 
-  constructor({x = 0, y = 0, size = 100, game = {seed: ''}}){
+  constructor({r = 0, size = 100, game = {seed: ''}}){
 
-    this.x = x;
-    this.y = y;
+    this.radius = r * size;
+    this.x = r;
+    this.y = r;
     this.size = size;
     this.grid = [];
     this.game = game;
@@ -21,12 +22,17 @@ export default class Grid {
     for (let x = -this.x; x < this.x; x++) {
       for (let y = -this.y; y < this.y; y++) {
         this.grid[x] = this.grid[x] || [];
-        this.grid[x][y] = new Tree({
-          x: seededRandomBetween(`${x}:${x}:${y}`, this.game.seed, x * this.size + PADDING, (x+1) * this.size - PADDING),
-          y: seededRandomBetween(`${y}:${x}:${y}`, this.game.seed, y * this.size + PADDING, (y+1) * this.size - PADDING),
-          trunkRadius: seededRandomBetween(`${x}:${x}:${y}`, this.game.seed, 10, 20),
-          leafRadius: seededRandomBetween(`${x}:${x}:${y}`, this.game.seed, 70, 150),
-        });
+
+        if( Math.sqrt((x*size - size/2) * (x*size - size/2) + (y*size - size/2) * (y*size - size/2)) < r * size ) {
+          this.grid[x][y] = new Tree({
+            x: seededRandomBetween(`${x}:${x}:${y}`, this.game.seed, x * this.size + PADDING, (x+1) * this.size - PADDING),
+            y: seededRandomBetween(`${y}:${x}:${y}`, this.game.seed, y * this.size + PADDING, (y+1) * this.size - PADDING),
+            trunkRadius: seededRandomBetween(`${x}:${x}:${y}`, this.game.seed, 10, 20),
+            leafRadius: seededRandomBetween(`${x}:${x}:${y}`, this.game.seed, 70, 150),
+          });
+        } else {
+          this.grid[x][y] = null;
+        }
       }
     }
 
@@ -50,7 +56,7 @@ export default class Grid {
     for (let x = -this.x; x < this.x; x++) {
       for (let y = -this.y; y < this.y; y++) {
         const tree = this.grid[x][y];
-        if(this.inView(game, tree)){
+        if(tree && this.inView(game, tree)){
           drawCount++;
           tree.draw(game);
         }

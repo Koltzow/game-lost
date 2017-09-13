@@ -87,7 +87,7 @@ export default class Player extends Girl {
 		// reset colliding
 		this.colliding = false;
 
-		// test collision with trees
+		// test collision with sisters
 		game.sisters.forEach((sister, i) => {
 			if(distanceBetween(this, sister) < 0){
 				this.sisters.unshift(sister);
@@ -96,6 +96,10 @@ export default class Player extends Girl {
 		});
 
 		this.sisters.forEach((sister, i)=> {
+			if (sister.dead){
+				return;
+			}
+
 			const dx = (this.history[i*15 + 15][0] - sister.x) * 0.1;
 			const dy = (this.history[i*15 + 15][1] - sister.y) * 0.1;
 			sister.radian = Math.atan2(dy, dx);

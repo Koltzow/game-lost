@@ -9,6 +9,7 @@ import Menu from './menu';
 import Endscreen from './endscreen';
 import Timer from './timer';
 import Hint from './hint';
+import Message from './messages';
 import { randomIntInRange, generateSeed, magnitude } from './util';
 
 const PLAYING     = 'PLAYING';
@@ -61,7 +62,9 @@ export default class Game {
 		this.sisters = [];
 		this.wolves = [];
 	  this.player = null;
-    this.world = null;
+		this.world = null;
+
+		this.messages = [];
 
 		// set current timestamp
 		this.lastTimestamp = new Date();
@@ -203,6 +206,13 @@ export default class Game {
 				// update timer
 				this.timer.update();
 
+				// update message
+				this.messages.forEach((message, i) => {
+					message.duration > 0 ?
+						this.messages[0].update() :
+						this.messages.shift()
+				});
+
 				break;
 			case FINISHED:
 
@@ -286,6 +296,11 @@ export default class Game {
 				if (magnitude(this.player.x, this.player.y) > 6*140) {
 					this.state = FINISHED;
 				}
+
+				// draw message
+				this.messages.forEach(message => {
+					this.messages[0].draw(this);
+				})
 
 				break;
 			}

@@ -1,4 +1,4 @@
-import { distanceBetween } from './util';
+import { distanceBetween, rotatePoint } from './util';
 
 export default class Wolf {
 
@@ -7,9 +7,10 @@ export default class Wolf {
     this.x = x;
     this.y = y;
     this.radius = 20;
+    this.radian = 0;
     this.target = null;
     this.hasEaten = false;
-    this.sightDistance = 100;
+    this.sightDistance = 150;
 
   }
 
@@ -42,8 +43,14 @@ export default class Wolf {
     }
 
     if(this.target !== null) {
-      this.x += (this.target.x - this.x) * 0.01;
-      this.y += (this.target.y - this.y) * 0.01;
+      const dx = this.target.x - this.x;
+      const dy = this.target.y - this.y;
+
+      this.x += dx * (1 - distanceBetween(this, this.target) / this.sightDistance) * 0.04;
+      this.y += dy * (1 - distanceBetween(this, this.target) / this.sightDistance) * 0.04;
+
+      this.radian = Math.atan2(dy, dx);
+
     }
 
   }
@@ -58,9 +65,16 @@ export default class Wolf {
       color = 'yellow';
     }
 
+    // draw body
     game.context.fillStyle = color;
     game.context.beginPath();
     game.context.arc(this.x, this.y, this.radius, 0, Math.PI*2);
+    game.context.fill();
+
+    // draw head
+    game.context.beginPath();
+    const p0 = rotatePoint(this.x, this.y, this.radian, this.x + 20, this.y);
+    game.context.arc(p0.x, p0.y, 15, 0, Math.PI * 2);
     game.context.fill();
 
   }

@@ -29,7 +29,7 @@ export default class Game {
 		this.timer = null;
 
 		// set size
-		this.width = 720;
+		this.width = 1280;
 		this.height = 720;
 
 		// canvas

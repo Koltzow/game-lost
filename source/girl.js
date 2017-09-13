@@ -13,12 +13,25 @@ export default class Girl {
     this.vy = 0;
     this.hoodcolor = hoodcolor;
     this.facecolor = '#FFDABC';
+    this.dead = false;
 
+  }
+
+  kill() {
+    this.dead = true;
   }
 
   update(game) {}
 
   draw(game) {
+
+    if(this.dead) {
+      game.context.fillStyle = 'red';
+  		game.context.beginPath();
+  		game.context.arc( this.x, this.y, this.radius*1.2, 0, 2*Math.PI );
+  		game.context.fill();
+      return;
+    }
 
     // draw shadow
 		game.context.fillStyle = 'rgba(0,0,0,0.2)';

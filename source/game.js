@@ -140,7 +140,7 @@ export default class Game {
 			);
 		});
 
-		this.wolves = Array(60).fill().map((s, i) => {
+		this.wolves = Array(50).fill().map((s, i) => {
 			return new Wolf(
 				randomIntInRange(-this.world.radius + 200, this.world.radius - 200),
 				randomIntInRange(-this.world.radius + 200, this.world.radius - 200),

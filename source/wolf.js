@@ -44,7 +44,7 @@ export default class Wolf {
       if (distanceBetween(this, game.player) < 0) {
         this.hasEaten = true;
         game.player.kill();
-        game.state = 'FINISHED';
+        game.state.set('FINISHED');
         return;
 
       } else if (distanceBetween(this, game.player) < this.sightDistance) {

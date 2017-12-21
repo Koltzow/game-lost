@@ -10,12 +10,8 @@ import Endscreen from './endscreen';
 import Timer from './timer';
 import Hint from './hint';
 import Messages from './messages';
+import Statemashine from './statemashine';
 import { randomIntInRange, generateSeed, magnitude } from './util';
-
-const PLAYING     = 'PLAYING';
-const PAUSED      = 'PAUSED';
-const MENU        = 'MENU';
-const FINISHED		= 'FINISHED';
 
 export default class Game {
 
@@ -29,6 +25,17 @@ export default class Game {
 		this.hint = new Hint();
 		this.messages = new Messages();
 		this.timer = null;
+
+		// create statemashine
+		this.state = new Statemashine([
+			'PLAYING',
+			'PAUSED',
+			'MENU',
+			'FINISHED',
+		]);
+
+		// set default state
+		this.state.set('MENU');
 
 		// set size
 		this.width = 1280;
@@ -47,9 +54,6 @@ export default class Game {
 
 		// frame counter
 		this.frame = 0;
-
-		// set default state
-	  this.state = MENU;
 
 	  // set ambient light intensity
 	  this.ambient = 0.3;
@@ -149,9 +153,9 @@ export default class Game {
 
 		this.timer = new Timer();
 
-		this.state = PLAYING;
 		this.messages.add('Find your 6 lost sisters and get out safely', 60*2);
 
+		this.state.set('PLAYING');
 
 	}
 
@@ -176,14 +180,14 @@ export default class Game {
 	update() {
 
 		// check state
-		switch (this.state) {
-			case MENU:
+		switch (this.state.get()) {
+			case 'MENU':
 
 				// update menu
 				this.menu.update(this);
 
 				break;
-			case PLAYING:
+			case 'PLAYING':
 
 				this.wind = Math.sin(this.frame / 40);
 
@@ -221,7 +225,7 @@ export default class Game {
 				}
 
 				break;
-			case FINISHED:
+			case 'FINISHED':
 
 				// update endscreen
 				this.endscreen.update(this);
@@ -238,14 +242,14 @@ export default class Game {
 		this.clear();
 
 		// check state
-		switch (this.state) {
-			case MENU:
+		switch (this.state.get()) {
+			case 'MENU':
 
 				// draw menu
 				this.menu.draw(this);
 
 				break;
-			case PLAYING: {
+			case 'PLAYING': {
 
 				// get translate coordinates
 				const x = this.width/2 - this.player.x;
@@ -317,7 +321,7 @@ export default class Game {
 				if (magnitude(this.player.x, this.player.y) > this.world.radius + 200) {
 
 					if(this.sisters.length <= 0){
-						this.state = FINISHED;
+						this.state.set('FINISHED');
 					} else {
 						// turn around
 						this.messages.add('Turn around, missing sisters!', 1);
@@ -331,13 +335,13 @@ export default class Game {
 
 				break;
 			}
-			case PAUSED:
+			case 'PAUSED':
 
 				// draw pause menu
 				this.drawPause();
 
 				break;
-			case FINISHED:
+			case 'FINISHED':
 
 				this.endscreen.draw(this);
 

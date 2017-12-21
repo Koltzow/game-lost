@@ -166,10 +166,9 @@ export default class Game {
 	clear() {
 
 		// clear canvas
-		this.context.clearRect(0, 0, this.width, this.height);
+		//this.context.clearRect(0, 0, this.width, this.height);
 
 		// fill with ambient color
-		this.context.fillStyle = 'rgb( '+Math.round(255*this.ambient)+','+Math.round(255*this.ambient)+','+Math.round(255*this.ambient)+')';
 		this.context.fillStyle = this.backgroundColor;
 		this.context.fillRect(0, 0, this.width, this.height);
 	}

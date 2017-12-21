@@ -1,4 +1,4 @@
-import { distanceBetween, rotatePoint } from './util';
+import { distanceBetween, rotatePoint, randomBetween } from './util';
 
 export default class Wolf {
 
@@ -7,7 +7,7 @@ export default class Wolf {
     this.x = x;
     this.y = y;
     this.radius = 15;
-    this.radian = 0;
+    this.radian = randomBetween(0, 3);
     this.target = null;
     this.hasEaten = false;
     this.sightDistance = 150;

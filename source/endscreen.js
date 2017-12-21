@@ -27,7 +27,7 @@ export default class Endscreen {
       }
     });
 
-    game.context.fillText(`Sisters saved: ${count}`, game.width/2, game.height*0.5);
+    game.context.fillText(`Sisters saved: ${count}/6`, game.width/2, game.height*0.5);
 
     if (Math.sin(game.frame/15) > 0.2) {
       game.context.font = '30px Arial';

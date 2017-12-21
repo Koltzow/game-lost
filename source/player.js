@@ -90,8 +90,10 @@ export default class Player extends Girl {
 		// test collision with sisters
 		game.sisters.forEach((sister, i) => {
 			if(distanceBetween(this, sister) < 0){
+				sister.found = true;
 				this.sisters.unshift(sister);
 				game.sisters.splice(i, 1);
+
 			}
 		});
 

@@ -14,6 +14,7 @@ export default class Girl {
     this.hoodcolor = hoodcolor;
     this.facecolor = '#FFDABC';
     this.dead = false;
+    this.found = false;
 
   }
 

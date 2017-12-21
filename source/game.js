@@ -9,7 +9,7 @@ import Menu from './menu';
 import Endscreen from './endscreen';
 import Timer from './timer';
 import Hint from './hint';
-import Message from './messages';
+import Messages from './messages';
 import { randomIntInRange, generateSeed, magnitude } from './util';
 
 const PLAYING     = 'PLAYING';
@@ -27,6 +27,7 @@ export default class Game {
 		this.menu = new Menu();
 		this.endscreen = new Endscreen();
 		this.hint = new Hint();
+		this.messages = new Messages();
 		this.timer = null;
 
 		// set size
@@ -63,8 +64,6 @@ export default class Game {
 		this.wolves = [];
 	  this.player = null;
 		this.world = null;
-
-		this.messages = [];
 
 		// set current timestamp
 		this.lastTimestamp = new Date();
@@ -151,6 +150,8 @@ export default class Game {
 		this.timer = new Timer();
 
 		this.state = PLAYING;
+		this.messages.add('Find your 6 lost sisters and get out safely', 60*2);
+
 
 	}
 
@@ -214,16 +215,11 @@ export default class Game {
 				// update timer
 				this.timer.update();
 
-				if(this.sisters.length <= 0){
-					this.messages.push(new Message('Get out of safely!', 1));
-				}
+				this.messages.update();
 
-				// update message
-				this.messages.forEach((message, i) => {
-					message.duration > 0 ?
-						this.messages[0].update() :
-						this.messages.shift()
-				});
+				if(this.sisters.length <= 0){
+					this.messages.add('Get out of safely!', 1);
+				}
 
 				break;
 			case FINISHED:
@@ -311,16 +307,14 @@ export default class Game {
 						this.state = FINISHED;
 					} else {
 						// turn around
-						this.messages.push(new Message('Turn around, missing sisters!', 1));
+						this.messages.add('Turn around, missing sisters!', 1);
 						this.player.vx *= 0.2;
 						this.player.vy *= 0.2;
 					}
 				}
 
 				// draw message
-				this.messages.forEach(message => {
-					this.messages[0].draw(this);
-				})
+				this.messages.draw(this);
 
 				break;
 			}

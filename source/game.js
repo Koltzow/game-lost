@@ -234,12 +234,6 @@ export default class Game {
 
 	draw() {
 
-		this.debugger.addFrame(Math.floor(1000/this.deltaTime));
-		this.debugger.add(`Seed:  ${this.seed}`);
-		this.debugger.add(`State: ${this.state}`);
-		this.debugger.add(`FPS:   ${Math.floor(1000/this.deltaTime)}`);
-
-
 		// clear canvas
 		this.clear();
 
@@ -260,8 +254,6 @@ export default class Game {
 				// translate the context
 				this.context.translate(x, y);
 
-				this.debugger.add(`Steps: ${this.steps.length}`);
-
 				// draw steps
 				this.steps.forEach(step => {
 					step.draw(this);
@@ -272,8 +264,6 @@ export default class Game {
 
 				// draw the player
 				this.player.draw(this);
-
-				this.debugger.add(`Chars: ${1 + this.sisters.length + this.player.sisters.length}`);
 
 				// draw sisters
 				this.sisters.forEach(sister => {

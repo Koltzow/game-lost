@@ -11,13 +11,21 @@ html
 
       html, body {
       	overflow: hidden;
+        width: 100%;
+        height: 100%;
+      }
+      
+      #flex {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        height: 100%;
+        background: black;
       }
 
-      canvas {
-      	position: fixed;
-      	top: 0;
-      	left: 0;
-      }
+      canvas {}
   body
-    canvas#c
+    #flex
+      canvas#c
     script(src="bundle.js")

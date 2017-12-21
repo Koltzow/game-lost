@@ -290,6 +290,30 @@ export default class Game {
 				// draw timer
 				this.timer.draw(this);
 
+				this.sisters.forEach((sister, index) => {
+
+					this.context.fillStyle = 'rgba(255,255,255,0.2)';
+					this.context.beginPath();
+					this.context.arc(this.width - 50 - 35 * index, 40, 15, 0, Math.PI*2);
+					this.context.fill();
+
+				});
+
+				this.player.sisters.forEach((sister, index) => {
+
+					let fill = sister.hoodcolor;
+
+					if(sister.dead) {
+						fill = 'red';
+					}
+
+					this.context.fillStyle = fill;
+					this.context.beginPath();
+					this.context.arc(this.width - 50 - 35 * 5 + index * 35, 40, 15, 0, Math.PI*2);
+					this.context.fill();
+
+				});
+
 				if (magnitude(this.player.x, this.player.y) > this.world.radius + 200) {
 
 					if(this.sisters.length <= 0){
